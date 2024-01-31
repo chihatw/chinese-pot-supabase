@@ -690,10 +690,10 @@ DECLARE
 _parts text[];
 _filename text;
 BEGIN
-    select string_to_array(name, '/') into _parts;
-    select _parts[array_length(_parts,1)] into _filename;
-    -- @todo return the last part instead of 2
-    return split_part(_filename, '.', 2);
+	select string_to_array(name, '/') into _parts;
+	select _parts[array_length(_parts,1)] into _filename;
+	-- @todo return the last part instead of 2
+	return reverse(split_part(reverse(_filename), '.', 1));
 END
 $$;
 
@@ -710,8 +710,8 @@ CREATE FUNCTION storage.filename(name text) RETURNS text
 DECLARE
 _parts text[];
 BEGIN
-    select string_to_array(name, '/') into _parts;
-    return _parts[array_length(_parts,1)];
+	select string_to_array(name, '/') into _parts;
+	return _parts[array_length(_parts,1)];
 END
 $$;
 
@@ -728,8 +728,8 @@ CREATE FUNCTION storage.foldername(name text) RETURNS text[]
 DECLARE
 _parts text[];
 BEGIN
-    select string_to_array(name, '/') into _parts;
-    return _parts[1:array_length(_parts,1)-1];
+	select string_to_array(name, '/') into _parts;
+	return _parts[1:array_length(_parts,1)-1];
 END
 $$;
 
@@ -1486,6 +1486,15 @@ COPY auth.audit_log_entries (instance_id, id, payload, created_at, ip_address) F
 00000000-0000-0000-0000-000000000000	e61d8a56-b2df-4c94-9e01-09bdb79fbaba	{"action":"token_refreshed","actor_id":"f5fe9a30-1a26-4a97-83b0-4ef556038b79","actor_username":"chiha.tw@gmail.com","actor_via_sso":false,"log_type":"token"}	2024-01-31 03:08:06.771204+00	
 00000000-0000-0000-0000-000000000000	396ca1bb-5d7e-4626-b315-a51444a0130b	{"action":"token_revoked","actor_id":"f5fe9a30-1a26-4a97-83b0-4ef556038b79","actor_username":"chiha.tw@gmail.com","actor_via_sso":false,"log_type":"token"}	2024-01-31 03:08:06.771955+00	
 00000000-0000-0000-0000-000000000000	22d3df46-426a-420e-a9be-84786cce7811	{"action":"token_refreshed","actor_id":"f5fe9a30-1a26-4a97-83b0-4ef556038b79","actor_username":"chiha.tw@gmail.com","actor_via_sso":false,"log_type":"token"}	2024-01-31 03:08:18.510654+00	
+00000000-0000-0000-0000-000000000000	9c340fe5-0e29-4144-9741-8223b9c604a1	{"action":"user_recovery_requested","actor_id":"f5fe9a30-1a26-4a97-83b0-4ef556038b79","actor_username":"chiha.tw@gmail.com","actor_via_sso":false,"log_type":"user"}	2024-01-31 03:51:32.627443+00	
+00000000-0000-0000-0000-000000000000	d105d625-a83d-407f-8530-9dd0c38208cb	{"action":"login","actor_id":"f5fe9a30-1a26-4a97-83b0-4ef556038b79","actor_username":"chiha.tw@gmail.com","actor_via_sso":false,"log_type":"account"}	2024-01-31 03:51:47.305162+00	
+00000000-0000-0000-0000-000000000000	4b6688c1-0b3d-4a9f-981a-5e6024f80375	{"action":"user_recovery_requested","actor_id":"f5fe9a30-1a26-4a97-83b0-4ef556038b79","actor_username":"chiha.tw@gmail.com","actor_via_sso":false,"log_type":"user"}	2024-01-31 03:52:54.694507+00	
+00000000-0000-0000-0000-000000000000	9329736b-2ba1-4cb2-871d-5e11fcc1cda5	{"action":"login","actor_id":"f5fe9a30-1a26-4a97-83b0-4ef556038b79","actor_username":"chiha.tw@gmail.com","actor_via_sso":false,"log_type":"account"}	2024-01-31 03:53:10.502961+00	
+00000000-0000-0000-0000-000000000000	5bbea489-d6ed-41cc-88ce-11c97478cc5e	{"action":"user_recovery_requested","actor_id":"f5fe9a30-1a26-4a97-83b0-4ef556038b79","actor_username":"chiha.tw@gmail.com","actor_via_sso":false,"log_type":"user"}	2024-01-31 03:54:29.700149+00	
+00000000-0000-0000-0000-000000000000	5d2bbcb1-b705-4ff5-836f-f7286a484ac6	{"action":"login","actor_id":"f5fe9a30-1a26-4a97-83b0-4ef556038b79","actor_username":"chiha.tw@gmail.com","actor_via_sso":false,"log_type":"account"}	2024-01-31 03:54:40.767613+00	
+00000000-0000-0000-0000-000000000000	83a74d1d-e601-4740-98c1-e51e40b87cfc	{"action":"user_recovery_requested","actor_id":"f5fe9a30-1a26-4a97-83b0-4ef556038b79","actor_username":"chiha.tw@gmail.com","actor_via_sso":false,"log_type":"user"}	2024-01-31 03:56:33.617404+00	
+00000000-0000-0000-0000-000000000000	45f29637-461d-4608-8f47-7bbf989e5e05	{"action":"login","actor_id":"f5fe9a30-1a26-4a97-83b0-4ef556038b79","actor_username":"chiha.tw@gmail.com","actor_via_sso":false,"log_type":"account"}	2024-01-31 03:56:53.517571+00	
+00000000-0000-0000-0000-000000000000	29d12542-dca1-4e45-946e-e0f1e05b2791	{"action":"login","actor_id":"f5fe9a30-1a26-4a97-83b0-4ef556038b79","actor_username":"chiha.tw@gmail.com","actor_via_sso":false,"log_type":"account","traits":{"provider_type":"magiclink"}}	2024-01-31 03:56:55.384193+00	
 \.
 
 
@@ -1494,6 +1503,8 @@ COPY auth.audit_log_entries (instance_id, id, payload, created_at, ip_address) F
 --
 
 COPY auth.flow_state (id, user_id, auth_code, code_challenge_method, code_challenge, provider_type, provider_access_token, provider_refresh_token, created_at, updated_at, authentication_method) FROM stdin;
+8b52a2e2-3e65-4bf4-bdc4-8c4989a4d280	f5fe9a30-1a26-4a97-83b0-4ef556038b79	8a0abd3f-127f-4b69-bed1-844dcf936339	s256	vEpWLsSZCx5MkAOpEoT8Dj6a72vQ16LaigvDekYEK-U	magiclink			2024-01-31 03:51:32.62847+00	2024-01-31 03:51:32.62847+00	magiclink
+106bd0e7-0c81-40c7-a536-ed116f3ff425	f5fe9a30-1a26-4a97-83b0-4ef556038b79	d97d8e01-54cf-4426-9ec1-d688b67a44a2	s256	nf1GcwJZ47DpCAsODcna-Jpu8JSLWZmHXNdQlu54EqQ	magiclink			2024-01-31 03:52:54.695101+00	2024-01-31 03:52:54.695101+00	magiclink
 \.
 
 
@@ -1502,7 +1513,6 @@ COPY auth.flow_state (id, user_id, auth_code, code_challenge_method, code_challe
 --
 
 COPY auth.identities (provider_id, user_id, identity_data, provider, last_sign_in_at, created_at, updated_at, id) FROM stdin;
-f5fe9a30-1a26-4a97-83b0-4ef556038b79	f5fe9a30-1a26-4a97-83b0-4ef556038b79	{"sub": "f5fe9a30-1a26-4a97-83b0-4ef556038b79", "email": "chiha.tw@gmail.com", "email_verified": false, "phone_verified": false}	email	2024-01-24 08:11:29.723335+00	2024-01-24 08:11:29.7234+00	2024-01-24 08:11:29.7234+00	7154300c-1c02-4937-8bd9-3b40005d1c12
 \.
 
 
@@ -1519,8 +1529,8 @@ COPY auth.instances (id, uuid, raw_base_config, created_at, updated_at) FROM std
 --
 
 COPY auth.mfa_amr_claims (session_id, created_at, updated_at, authentication_method, id) FROM stdin;
-7c602510-aee6-4965-a1fa-63988a0edad3	2024-01-24 08:12:05.770492+00	2024-01-24 08:12:05.770492+00	email/signup	62d58512-d0ea-45a5-8815-de601e7f7f27
-ed9eb350-daae-45ee-bb5d-43369b9f8535	2024-01-24 08:21:38.997118+00	2024-01-24 08:21:38.997118+00	magiclink	07069f7d-8f3c-4fd3-8d9e-8da123dd1c79
+6feb085a-6dac-4953-bf40-271c0e741fe2	2024-01-31 03:54:40.771389+00	2024-01-31 03:54:40.771389+00	otp	94143c04-8ef4-4552-a605-0d63cf0d94e0
+ceb3086e-7119-4fba-b26a-e5273f899338	2024-01-31 03:56:55.38666+00	2024-01-31 03:56:55.38666+00	magiclink	bc2b2a99-7f78-430b-acba-b0b2620e1933
 \.
 
 
@@ -1545,18 +1555,8 @@ COPY auth.mfa_factors (id, user_id, friendly_name, factor_type, status, created_
 --
 
 COPY auth.refresh_tokens (instance_id, id, token, user_id, revoked, created_at, updated_at, parent, session_id) FROM stdin;
-00000000-0000-0000-0000-000000000000	1	r8fHTuTrsW6nl_Kma4zkEQ	f5fe9a30-1a26-4a97-83b0-4ef556038b79	f	2024-01-24 08:12:05.765988+00	2024-01-24 08:12:05.765988+00	\N	7c602510-aee6-4965-a1fa-63988a0edad3
-00000000-0000-0000-0000-000000000000	2	bx_vaZ1FGatV7kX4p1ht-A	f5fe9a30-1a26-4a97-83b0-4ef556038b79	t	2024-01-24 08:21:38.995805+00	2024-01-24 09:19:49.200021+00	\N	ed9eb350-daae-45ee-bb5d-43369b9f8535
-00000000-0000-0000-0000-000000000000	3	tnwBPm_Sj_J5pPQc-Rjt4A	f5fe9a30-1a26-4a97-83b0-4ef556038b79	t	2024-01-24 09:19:49.200715+00	2024-01-24 10:18:19.31976+00	bx_vaZ1FGatV7kX4p1ht-A	ed9eb350-daae-45ee-bb5d-43369b9f8535
-00000000-0000-0000-0000-000000000000	4	nMZ0ncZI2qnhlMkC1b9Fsw	f5fe9a30-1a26-4a97-83b0-4ef556038b79	t	2024-01-24 10:18:19.320128+00	2024-01-24 11:16:49.414021+00	tnwBPm_Sj_J5pPQc-Rjt4A	ed9eb350-daae-45ee-bb5d-43369b9f8535
-00000000-0000-0000-0000-000000000000	5	5yBW4qomgqBEc3QQ_SGdTA	f5fe9a30-1a26-4a97-83b0-4ef556038b79	t	2024-01-24 11:16:49.414389+00	2024-01-24 12:15:19.457822+00	nMZ0ncZI2qnhlMkC1b9Fsw	ed9eb350-daae-45ee-bb5d-43369b9f8535
-00000000-0000-0000-0000-000000000000	6	kLX40kWje_5Yh1-HLml71A	f5fe9a30-1a26-4a97-83b0-4ef556038b79	t	2024-01-24 12:15:19.458166+00	2024-01-24 13:13:40.025877+00	5yBW4qomgqBEc3QQ_SGdTA	ed9eb350-daae-45ee-bb5d-43369b9f8535
-00000000-0000-0000-0000-000000000000	7	2CVzByF_a1nQ283QLcB2tg	f5fe9a30-1a26-4a97-83b0-4ef556038b79	t	2024-01-24 13:13:40.026297+00	2024-01-24 14:12:10.052784+00	kLX40kWje_5Yh1-HLml71A	ed9eb350-daae-45ee-bb5d-43369b9f8535
-00000000-0000-0000-0000-000000000000	8	qvbmi_ec-LJmZyLwhzGiGw	f5fe9a30-1a26-4a97-83b0-4ef556038b79	t	2024-01-24 14:12:10.053179+00	2024-01-24 15:10:40.2173+00	2CVzByF_a1nQ283QLcB2tg	ed9eb350-daae-45ee-bb5d-43369b9f8535
-00000000-0000-0000-0000-000000000000	9	WXLgDuyGgaBzZwlPDQkQjQ	f5fe9a30-1a26-4a97-83b0-4ef556038b79	t	2024-01-24 15:10:40.217637+00	2024-01-24 16:16:03.941191+00	qvbmi_ec-LJmZyLwhzGiGw	ed9eb350-daae-45ee-bb5d-43369b9f8535
-00000000-0000-0000-0000-000000000000	10	wBiLeTmOeJ4XjKpdVAaeeQ	f5fe9a30-1a26-4a97-83b0-4ef556038b79	t	2024-01-24 16:16:03.941522+00	2024-01-31 01:36:50.968927+00	WXLgDuyGgaBzZwlPDQkQjQ	ed9eb350-daae-45ee-bb5d-43369b9f8535
-00000000-0000-0000-0000-000000000000	11	157Ldb_-ACwlx8QjJcWDXg	f5fe9a30-1a26-4a97-83b0-4ef556038b79	t	2024-01-31 01:36:50.973531+00	2024-01-31 03:08:06.772572+00	wBiLeTmOeJ4XjKpdVAaeeQ	ed9eb350-daae-45ee-bb5d-43369b9f8535
-00000000-0000-0000-0000-000000000000	12	gvhxjyutegw41sxwhD0xtw	f5fe9a30-1a26-4a97-83b0-4ef556038b79	f	2024-01-31 03:08:06.772935+00	2024-01-31 03:08:06.772935+00	157Ldb_-ACwlx8QjJcWDXg	ed9eb350-daae-45ee-bb5d-43369b9f8535
+00000000-0000-0000-0000-000000000000	13	b8UmJCgiD3LsVs8NasPw4A	f5fe9a30-1a26-4a97-83b0-4ef556038b79	f	2024-01-31 03:54:40.769564+00	2024-01-31 03:54:40.769564+00	\N	6feb085a-6dac-4953-bf40-271c0e741fe2
+00000000-0000-0000-0000-000000000000	14	UJjPVPJwkqfye2Su1NHhlQ	f5fe9a30-1a26-4a97-83b0-4ef556038b79	f	2024-01-31 03:56:55.385483+00	2024-01-31 03:56:55.385483+00	\N	ceb3086e-7119-4fba-b26a-e5273f899338
 \.
 
 
@@ -1640,8 +1640,8 @@ COPY auth.schema_migrations (version) FROM stdin;
 --
 
 COPY auth.sessions (id, user_id, created_at, updated_at, factor_id, aal, not_after, refreshed_at, user_agent, ip, tag) FROM stdin;
-7c602510-aee6-4965-a1fa-63988a0edad3	f5fe9a30-1a26-4a97-83b0-4ef556038b79	2024-01-24 08:12:05.764609+00	2024-01-24 08:12:05.764609+00	\N	aal1	\N	\N	Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36	119.230.237.152	\N
-ed9eb350-daae-45ee-bb5d-43369b9f8535	f5fe9a30-1a26-4a97-83b0-4ef556038b79	2024-01-24 08:21:38.99505+00	2024-01-31 03:08:18.512089+00	\N	aal1	\N	2024-01-31 03:08:18.512002	undici	119.230.237.152	\N
+6feb085a-6dac-4953-bf40-271c0e741fe2	f5fe9a30-1a26-4a97-83b0-4ef556038b79	2024-01-31 03:54:40.768418+00	2024-01-31 03:54:40.768418+00	\N	aal1	\N	\N	Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/121.0.0.0 Safari/537.36	119.230.237.152	\N
+ceb3086e-7119-4fba-b26a-e5273f899338	f5fe9a30-1a26-4a97-83b0-4ef556038b79	2024-01-31 03:56:55.384818+00	2024-01-31 03:56:55.384818+00	\N	aal1	\N	\N	Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/121.0.0.0 Safari/537.36	119.230.237.152	\N
 \.
 
 
@@ -1666,7 +1666,7 @@ COPY auth.sso_providers (id, resource_id, created_at, updated_at) FROM stdin;
 --
 
 COPY auth.users (instance_id, id, aud, role, email, encrypted_password, email_confirmed_at, invited_at, confirmation_token, confirmation_sent_at, recovery_token, recovery_sent_at, email_change_token_new, email_change, email_change_sent_at, last_sign_in_at, raw_app_meta_data, raw_user_meta_data, is_super_admin, created_at, updated_at, phone, phone_confirmed_at, phone_change, phone_change_token, phone_change_sent_at, email_change_token_current, email_change_confirm_status, banned_until, reauthentication_token, reauthentication_sent_at, is_sso_user, deleted_at) FROM stdin;
-00000000-0000-0000-0000-000000000000	f5fe9a30-1a26-4a97-83b0-4ef556038b79	authenticated	authenticated	chiha.tw@gmail.com	$2a$10$LR8selbRDTTnIXs.l5n3i.GZ1y1ud2AHsw7jI/pi84SeWU114n5v2	2024-01-24 08:12:01.314927+00	\N		2024-01-24 08:11:29.72656+00		2024-01-24 08:21:20.26687+00			\N	2024-01-24 08:21:38.994972+00	{"provider": "email", "providers": ["email"]}	{}	\N	2024-01-24 08:11:29.717912+00	2024-01-31 03:08:06.773936+00	\N	\N			\N		0	\N		\N	f	\N
+00000000-0000-0000-0000-000000000000	f5fe9a30-1a26-4a97-83b0-4ef556038b79	authenticated	authenticated	chiha.tw@gmail.com	$2a$10$LR8selbRDTTnIXs.l5n3i.GZ1y1ud2AHsw7jI/pi84SeWU114n5v2	2024-01-24 08:12:01.314927+00	\N		2024-01-24 08:11:29.72656+00		2024-01-31 03:56:33.618532+00			\N	2024-01-31 03:56:55.384752+00	{"provider": "email", "providers": ["email"]}	{}	\N	2024-01-24 08:11:29.717912+00	2024-01-31 03:56:55.386358+00	\N	\N			\N		0	\N		\N	f	\N
 \.
 
 
@@ -1684,7 +1684,7 @@ COPY pgsodium.key (id, status, created, expires, key_type, key_id, key_context, 
 
 COPY public.todos (id, created_at, title, completed, created_by) FROM stdin;
 1	2024-01-24 08:21:46.561755+00	hello	f	f5fe9a30-1a26-4a97-83b0-4ef556038b79
-4	2024-01-31 01:37:32.419605+00	chinese-pot	t	f5fe9a30-1a26-4a97-83b0-4ef556038b79
+4	2024-01-31 01:37:32.419605+00	chinese-pot	f	f5fe9a30-1a26-4a97-83b0-4ef556038b79
 \.
 
 
@@ -1701,26 +1701,26 @@ COPY storage.buckets (id, name, owner, created_at, updated_at, public, avif_auto
 --
 
 COPY storage.migrations (id, name, hash, executed_at) FROM stdin;
-0	create-migrations-table	e18db593bcde2aca2a408c4d1100f6abba2195df	2024-01-26 12:43:03.193108
-1	initialmigration	6ab16121fbaa08bbd11b712d05f358f9b555d777	2024-01-26 12:43:03.193108
-2	storage-schema	5c7968fd083fcea04050c1b7f6253c9771b99011	2024-01-26 12:43:03.193108
-3	pathtoken-column	2cb1b0004b817b29d5b0a971af16bafeede4b70d	2024-01-26 12:43:03.193108
-4	add-migrations-rls	427c5b63fe1c5937495d9c635c263ee7a5905058	2024-01-26 12:43:03.193108
-5	add-size-functions	79e081a1455b63666c1294a440f8ad4b1e6a7f84	2024-01-26 12:43:03.193108
-6	change-column-name-in-get-size	f93f62afdf6613ee5e7e815b30d02dc990201044	2024-01-26 12:43:03.193108
-7	add-rls-to-buckets	e7e7f86adbc51049f341dfe8d30256c1abca17aa	2024-01-26 12:43:03.193108
-8	add-public-to-buckets	fd670db39ed65f9d08b01db09d6202503ca2bab3	2024-01-26 12:43:03.193108
-9	fix-search-function	3a0af29f42e35a4d101c259ed955b67e1bee6825	2024-01-26 12:43:03.193108
-10	search-files-search-function	68dc14822daad0ffac3746a502234f486182ef6e	2024-01-26 12:43:03.193108
-11	add-trigger-to-auto-update-updated_at-column	7425bdb14366d1739fa8a18c83100636d74dcaa2	2024-01-26 12:43:03.193108
-12	add-automatic-avif-detection-flag	8e92e1266eb29518b6a4c5313ab8f29dd0d08df9	2024-01-26 12:43:03.193108
-13	add-bucket-custom-limits	cce962054138135cd9a8c4bcd531598684b25e7d	2024-01-26 12:43:03.193108
-14	use-bytes-for-max-size	941c41b346f9802b411f06f30e972ad4744dad27	2024-01-26 12:43:03.193108
-15	add-can-insert-object-function	934146bc38ead475f4ef4b555c524ee5d66799e5	2024-01-26 12:43:03.193108
-16	add-version	76debf38d3fd07dcfc747ca49096457d95b1221b	2024-01-26 12:43:03.193108
-17	drop-owner-foreign-key	f1cbb288f1b7a4c1eb8c38504b80ae2a0153d101	2024-01-26 12:43:03.193108
-18	add_owner_id_column_deprecate_owner	e7a511b379110b08e2f214be852c35414749fe66	2024-01-26 12:43:03.193108
-19	alter-default-value-objects-id	02e5e22a78626187e00d173dc45f58fa66a4f043	2024-01-26 12:43:03.24595
+0	create-migrations-table	e18db593bcde2aca2a408c4d1100f6abba2195df	2024-01-31 01:34:49.349869
+1	initialmigration	6ab16121fbaa08bbd11b712d05f358f9b555d777	2024-01-31 01:34:49.405419
+2	storage-schema	5c7968fd083fcea04050c1b7f6253c9771b99011	2024-01-31 01:34:49.461598
+3	pathtoken-column	2cb1b0004b817b29d5b0a971af16bafeede4b70d	2024-01-31 01:34:49.527803
+4	add-migrations-rls	427c5b63fe1c5937495d9c635c263ee7a5905058	2024-01-31 01:34:49.598325
+5	add-size-functions	79e081a1455b63666c1294a440f8ad4b1e6a7f84	2024-01-31 01:34:49.652879
+6	change-column-name-in-get-size	f93f62afdf6613ee5e7e815b30d02dc990201044	2024-01-31 01:34:49.670651
+7	add-rls-to-buckets	e7e7f86adbc51049f341dfe8d30256c1abca17aa	2024-01-31 01:34:49.730108
+8	add-public-to-buckets	fd670db39ed65f9d08b01db09d6202503ca2bab3	2024-01-31 01:34:49.785111
+9	fix-search-function	3a0af29f42e35a4d101c259ed955b67e1bee6825	2024-01-31 01:34:49.841117
+10	search-files-search-function	68dc14822daad0ffac3746a502234f486182ef6e	2024-01-31 01:34:49.897285
+11	add-trigger-to-auto-update-updated_at-column	7425bdb14366d1739fa8a18c83100636d74dcaa2	2024-01-31 01:34:49.953045
+12	add-automatic-avif-detection-flag	8e92e1266eb29518b6a4c5313ab8f29dd0d08df9	2024-01-31 01:34:50.009422
+13	add-bucket-custom-limits	cce962054138135cd9a8c4bcd531598684b25e7d	2024-01-31 01:34:50.065131
+14	use-bytes-for-max-size	941c41b346f9802b411f06f30e972ad4744dad27	2024-01-31 01:34:50.121329
+15	add-can-insert-object-function	934146bc38ead475f4ef4b555c524ee5d66799e5	2024-01-31 01:34:50.195653
+16	add-version	76debf38d3fd07dcfc747ca49096457d95b1221b	2024-01-31 01:34:50.248939
+17	drop-owner-foreign-key	f1cbb288f1b7a4c1eb8c38504b80ae2a0153d101	2024-01-31 01:34:50.305261
+18	add_owner_id_column_deprecate_owner	e7a511b379110b08e2f214be852c35414749fe66	2024-01-31 01:34:50.368253
+19	alter-default-value-objects-id	02e5e22a78626187e00d173dc45f58fa66a4f043	2024-01-31 01:34:50.425126
 \.
 
 
@@ -1737,6 +1737,7 @@ COPY storage.objects (id, bucket_id, name, owner, created_at, updated_at, last_a
 --
 
 COPY supabase_migrations.schema_migrations (version, statements, name) FROM stdin;
+20240131025447	{"create table \\"public\\".\\"todos\\" (\n    \\"id\\" bigint generated by default as identity not null,\n    \\"created_at\\" timestamp with time zone not null default now(),\n    \\"title\\" text,\n    \\"completed\\" boolean default false,\n    \\"created_by\\" uuid default auth.uid()\n)","CREATE UNIQUE INDEX todos_pkey ON public.todos USING btree (id)","alter table \\"public\\".\\"todos\\" add constraint \\"todos_pkey\\" PRIMARY KEY using index \\"todos_pkey\\"","grant delete on table \\"public\\".\\"todos\\" to \\"anon\\"","grant insert on table \\"public\\".\\"todos\\" to \\"anon\\"","grant references on table \\"public\\".\\"todos\\" to \\"anon\\"","grant select on table \\"public\\".\\"todos\\" to \\"anon\\"","grant trigger on table \\"public\\".\\"todos\\" to \\"anon\\"","grant truncate on table \\"public\\".\\"todos\\" to \\"anon\\"","grant update on table \\"public\\".\\"todos\\" to \\"anon\\"","grant delete on table \\"public\\".\\"todos\\" to \\"authenticated\\"","grant insert on table \\"public\\".\\"todos\\" to \\"authenticated\\"","grant references on table \\"public\\".\\"todos\\" to \\"authenticated\\"","grant select on table \\"public\\".\\"todos\\" to \\"authenticated\\"","grant trigger on table \\"public\\".\\"todos\\" to \\"authenticated\\"","grant truncate on table \\"public\\".\\"todos\\" to \\"authenticated\\"","grant update on table \\"public\\".\\"todos\\" to \\"authenticated\\"","grant delete on table \\"public\\".\\"todos\\" to \\"service_role\\"","grant insert on table \\"public\\".\\"todos\\" to \\"service_role\\"","grant references on table \\"public\\".\\"todos\\" to \\"service_role\\"","grant select on table \\"public\\".\\"todos\\" to \\"service_role\\"","grant trigger on table \\"public\\".\\"todos\\" to \\"service_role\\"","grant truncate on table \\"public\\".\\"todos\\" to \\"service_role\\"","grant update on table \\"public\\".\\"todos\\" to \\"service_role\\""}	initial_schema
 20240124085340	{"SET statement_timeout = 0","SET lock_timeout = 0","SET idle_in_transaction_session_timeout = 0","SET client_encoding = 'UTF8'","SET standard_conforming_strings = on","SELECT pg_catalog.set_config('search_path', '', false)","SET check_function_bodies = false","SET xmloption = content","SET client_min_messages = warning","SET row_security = off","CREATE EXTENSION IF NOT EXISTS \\"pgsodium\\" WITH SCHEMA \\"pgsodium\\"","CREATE SCHEMA IF NOT EXISTS \\"supabase_migrations\\"","ALTER SCHEMA \\"supabase_migrations\\" OWNER TO \\"postgres\\"","CREATE EXTENSION IF NOT EXISTS \\"pg_graphql\\" WITH SCHEMA \\"graphql\\"","CREATE EXTENSION IF NOT EXISTS \\"pg_stat_statements\\" WITH SCHEMA \\"extensions\\"","CREATE EXTENSION IF NOT EXISTS \\"pgcrypto\\" WITH SCHEMA \\"extensions\\"","CREATE EXTENSION IF NOT EXISTS \\"pgjwt\\" WITH SCHEMA \\"extensions\\"","CREATE EXTENSION IF NOT EXISTS \\"supabase_vault\\" WITH SCHEMA \\"vault\\"","CREATE EXTENSION IF NOT EXISTS \\"uuid-ossp\\" WITH SCHEMA \\"extensions\\"","SET default_tablespace = ''","SET default_table_access_method = \\"heap\\"","CREATE TABLE IF NOT EXISTS \\"public\\".\\"todos\\" (\n    \\"id\\" bigint NOT NULL,\n    \\"created_at\\" timestamp with time zone DEFAULT now() NOT NULL,\n    \\"title\\" text,\n    \\"completed\\" boolean DEFAULT false,\n    \\"created_by\\" uuid DEFAULT auth.uid()\n)","ALTER TABLE \\"public\\".\\"todos\\" OWNER TO \\"postgres\\"","ALTER TABLE \\"public\\".\\"todos\\" ALTER COLUMN \\"id\\" ADD GENERATED ALWAYS AS IDENTITY (\n    SEQUENCE NAME \\"public\\".\\"todos_id_seq\\"\n    START WITH 1\n    INCREMENT BY 1\n    NO MINVALUE\n    NO MAXVALUE\n    CACHE 1\n)","CREATE TABLE IF NOT EXISTS \\"supabase_migrations\\".\\"schema_migrations\\" (\n    \\"version\\" text NOT NULL,\n    \\"statements\\" text[],\n    \\"name\\" text\n)","ALTER TABLE \\"supabase_migrations\\".\\"schema_migrations\\" OWNER TO \\"postgres\\"","ALTER TABLE ONLY \\"supabase_migrations\\".\\"schema_migrations\\"\n    ADD CONSTRAINT \\"schema_migrations_pkey\\" PRIMARY KEY (\\"version\\")","GRANT USAGE ON SCHEMA \\"public\\" TO \\"postgres\\"","GRANT USAGE ON SCHEMA \\"public\\" TO \\"anon\\"","GRANT USAGE ON SCHEMA \\"public\\" TO \\"authenticated\\"","GRANT USAGE ON SCHEMA \\"public\\" TO \\"service_role\\"","GRANT ALL ON TABLE \\"public\\".\\"todos\\" TO \\"anon\\"","GRANT ALL ON TABLE \\"public\\".\\"todos\\" TO \\"authenticated\\"","GRANT ALL ON TABLE \\"public\\".\\"todos\\" TO \\"service_role\\"","GRANT ALL ON SEQUENCE \\"public\\".\\"todos_id_seq\\" TO \\"anon\\"","GRANT ALL ON SEQUENCE \\"public\\".\\"todos_id_seq\\" TO \\"authenticated\\"","GRANT ALL ON SEQUENCE \\"public\\".\\"todos_id_seq\\" TO \\"service_role\\"","ALTER DEFAULT PRIVILEGES FOR ROLE \\"postgres\\" IN SCHEMA \\"public\\" GRANT ALL ON SEQUENCES  TO \\"postgres\\"","ALTER DEFAULT PRIVILEGES FOR ROLE \\"postgres\\" IN SCHEMA \\"public\\" GRANT ALL ON SEQUENCES  TO \\"anon\\"","ALTER DEFAULT PRIVILEGES FOR ROLE \\"postgres\\" IN SCHEMA \\"public\\" GRANT ALL ON SEQUENCES  TO \\"authenticated\\"","ALTER DEFAULT PRIVILEGES FOR ROLE \\"postgres\\" IN SCHEMA \\"public\\" GRANT ALL ON SEQUENCES  TO \\"service_role\\"","ALTER DEFAULT PRIVILEGES FOR ROLE \\"postgres\\" IN SCHEMA \\"public\\" GRANT ALL ON FUNCTIONS  TO \\"postgres\\"","ALTER DEFAULT PRIVILEGES FOR ROLE \\"postgres\\" IN SCHEMA \\"public\\" GRANT ALL ON FUNCTIONS  TO \\"anon\\"","ALTER DEFAULT PRIVILEGES FOR ROLE \\"postgres\\" IN SCHEMA \\"public\\" GRANT ALL ON FUNCTIONS  TO \\"authenticated\\"","ALTER DEFAULT PRIVILEGES FOR ROLE \\"postgres\\" IN SCHEMA \\"public\\" GRANT ALL ON FUNCTIONS  TO \\"service_role\\"","ALTER DEFAULT PRIVILEGES FOR ROLE \\"postgres\\" IN SCHEMA \\"public\\" GRANT ALL ON TABLES  TO \\"postgres\\"","ALTER DEFAULT PRIVILEGES FOR ROLE \\"postgres\\" IN SCHEMA \\"public\\" GRANT ALL ON TABLES  TO \\"anon\\"","ALTER DEFAULT PRIVILEGES FOR ROLE \\"postgres\\" IN SCHEMA \\"public\\" GRANT ALL ON TABLES  TO \\"authenticated\\"","ALTER DEFAULT PRIVILEGES FOR ROLE \\"postgres\\" IN SCHEMA \\"public\\" GRANT ALL ON TABLES  TO \\"service_role\\"","RESET ALL"}	remote_schema
 \.
 
@@ -1753,7 +1754,7 @@ COPY vault.secrets (id, name, description, secret, key_id, nonce, created_at, up
 -- Name: refresh_tokens_id_seq; Type: SEQUENCE SET; Schema: auth; Owner: supabase_auth_admin
 --
 
-SELECT pg_catalog.setval('auth.refresh_tokens_id_seq', 12, true);
+SELECT pg_catalog.setval('auth.refresh_tokens_id_seq', 14, true);
 
 
 --
