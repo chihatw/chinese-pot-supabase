@@ -3,9 +3,9 @@
 import { createSupabaseServerActionClient } from '@/lib/supabase/actions';
 import { PROJECT_URL } from './constants';
 
-const isDev = process.env.NODE_ENV === 'development';
-const url = (isDev ? 'http://127.0.0.1:3000' : PROJECT_URL) + '/welcome';
-// const url = (isDev ? 'http://localhost:3000' : PROJECT_URL) + '/welcome';
+const isProduction = process.env.VERCEL_ENV === 'production';
+const url = (isProduction ? PROJECT_URL : 'http://127.0.0.1:3000') + '/welcome';
+// const url = (isProduction ? PROJECT_URL:'http://localhost:3000' ) + '/welcome';
 
 export async function signInWithMagicLink(email: string) {
   const supabase = createSupabaseServerActionClient();

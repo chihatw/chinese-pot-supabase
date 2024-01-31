@@ -1,1 +1,1 @@
-export const PROJECT_URL = 'https://supabase-template-kappa.vercel.app';
+export const PROJECT_URL = 'https://chinese-pot-supabase.vercel.app';
