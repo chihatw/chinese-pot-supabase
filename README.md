@@ -9,3 +9,7 @@ psql \
 -f backup.dump
 # Password for user postgres.fclyvkyxokodkqipxorr:
 ```
+
+# Memo
+`tsconfig.json`
+`new Set()` を使うために `"target": "es6"` 追記
