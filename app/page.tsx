@@ -27,7 +27,7 @@ export default async function Home() {
         </div>
       ) : null}
       {article ? (
-        <SentenceTable sentences={sentences} article={article} />
+        <SentenceTable sentences={sentences} articleId={article.id} />
       ) : null}
     </main>
   );

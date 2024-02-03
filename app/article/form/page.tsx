@@ -1,14 +1,22 @@
 import { ArticleForm } from '@/features/article';
 import { Article } from '@/features/article/schema';
+import { getArticlesByIds } from '@/features/article/services';
+import { redirect } from 'next/navigation';
 
 const ArticleFormPage = async ({
   searchParams: { id },
 }: {
   searchParams: { id?: number };
 }) => {
+  // create の時 null, update の時 Article
   let article: null | Article = null;
   if (id) {
-    // todo get article by ids
+    const { articles, error } = await getArticlesByIds([id]);
+    if (error) {
+      console.error(error);
+      redirect('/article/list');
+    }
+    article = articles[0];
   }
   return (
     <div className='mx-auto w-full max-w-lg space-y-10 pt-10'>

@@ -1,44 +1,43 @@
 'use server';
 
+import { createSupabaseServerActionClient } from '@/lib/supabase/actions';
+import { format } from 'date-fns';
 import { revalidatePath } from 'next/cache';
-import { redirect } from 'next/navigation';
 import { Article_org } from '.';
+import { Article, Article_db } from './schema';
 
-export const addArticleAction = async (article: Article_org) => {
-  await addArticle(article);
-
-  // note revalidateTagをつけると、 article list も、 top page も更新される
-  // note revalidatePath の場合、 dev では、 top page も更新されるが、本番環境では更新されない
-  // revalidateTag(REVALIDATE_TAGS.articles);
-  redirect('/article/list');
+export const addArticle = async (
+  article: Article_db
+): Promise<{ data?: number; error?: string }> => {
+  const supabase = createSupabaseServerActionClient();
+  const { data, error } = await supabase.rpc('insert_article', {
+    _title: article.title,
+    _date: article.date,
+  });
+  if (error) {
+    return { error: error.message };
+  }
+  revalidatePath('/');
+  revalidatePath('/article/list');
+  return { data };
 };
 
-// todo addArticle
-const addArticle = async (article: Article_org) => {
-  // await dbAdmin
-  //   .collection(COLLECTIONS.sarticles)
-  //   .withConverter(articleConverter)
-  //   .doc(article.id)
-  //   .set(article);
-};
-
-export const updateArticleAction = async (
-  id: number,
-  title: string,
-  createdAt: number
-) => {
-  await updateArticle(id, title, createdAt);
-  // revalidateTag(REVALIDATE_TAGS.articles);
-  // revalidateTag(REVALIDATE_TAGS.article);
-  redirect('/article/list');
-};
-// todo updateArticle
-const updateArticle = async (id: number, title: string, createdAt: number) => {
-  // await dbAdmin
-  //   .collection(COLLECTIONS.articles)
-  //   .withConverter(articleConverter)
-  //   .doc(id)
-  //   .update({ title, createdAt });
+export const updateArticle = async (
+  article: Article
+): Promise<{ data?: number; error?: string }> => {
+  const supabase = createSupabaseServerActionClient();
+  const { data, error } = await supabase.rpc('update_article', {
+    _id: article.id,
+    _title: article.title,
+    _date: format(article.date, 'yyyy-MM-dd'),
+  });
+  if (error) {
+    return { error: error.message };
+  }
+  revalidatePath('/');
+  revalidatePath('/article/list');
+  revalidatePath(`/article/${article.id}`);
+  return { data };
 };
 
 export const deleteArticleAction = async (id: number) => {

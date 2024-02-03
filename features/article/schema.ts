@@ -16,3 +16,8 @@ export interface ArticleSentence {
   text: string;
   pinyin: string;
 }
+
+export interface Article_db {
+  title: string;
+  date: string;
+}

@@ -3,45 +3,74 @@
 import { Button } from '@/components/ui/button';
 import { Calendar } from '@/components/ui/calendar';
 import { Input } from '@/components/ui/input';
-import { Popover, PopoverContent } from '@/components/ui/popover';
-import { cn } from '@/lib/utils';
-import { PopoverTrigger } from '@radix-ui/react-popover'; // @/components/ui/popover？
+import {
+  Popover,
+  PopoverContent,
+  PopoverTrigger,
+} from '@/components/ui/popover';
 import { format } from 'date-fns';
-import { CalendarIcon } from 'lucide-react';
-import { SetStateAction, useState } from 'react';
-import { Article } from '../schema';
+import { CalendarIcon, Loader2 } from 'lucide-react';
+import { useRouter } from 'next/navigation';
+import { SetStateAction, useState, useTransition } from 'react';
+import { addArticle, updateArticle } from '../actions';
+import { Article, Article_db } from '../schema';
 
 interface FormValue {
   title: string;
   date: Date;
   isValid: boolean;
+  error: string;
 }
 
 const ArticleForm = ({ article }: { article: Article | null }) => {
+  const router = useRouter();
+  const [isPending, startTransition] = useTransition();
   const [value, setValue] = useState<FormValue>({
     title: article?.title || '',
     date: article ? new Date(article.date) : new Date(),
     isValid: !!article?.title,
+    error: '',
   });
 
-  const handleSubmit = async () => {
-    // todo
-    // if (!value.date) return;
-    // if (article) {
-    //   await updateArticleAction(article.id, value.title, value.date!.getTime());
-    // } else {
-    //   const article: Article_org = {
-    //     id: nanoid(),
-    //     title: value.title,
-    //     createdAt: value.date.getTime(),
-    //     sentenceIds: [],
-    //   };
-    //   await addArticleAction(article);
-    // }
+  const add = () => {
+    const article: Article_db = {
+      title: value.title,
+      date: format(value.date, 'yyyy-MM-dd'),
+    };
+
+    startTransition(async () => {
+      const { data, error } = await addArticle(article);
+      if (error) {
+        setValue((prev) => ({ ...prev, error }));
+        return;
+      }
+      // エラーがなければ、リストに戻る
+      router.push('/article/list');
+    });
+  };
+
+  const update = (article: Article) => {
+    startTransition(async () => {
+      const { data, error } = await updateArticle({
+        ...article,
+        title: value.title,
+        date: value.date,
+      });
+      if (error) {
+        setValue((prev) => ({ ...prev, error }));
+        return;
+      }
+      // エラーがなければ、リストに戻る
+      router.push('/article/list');
+    });
+  };
+
+  const handleClick = async () => {
+    !article ? add() : update(article);
   };
 
   return (
-    <form className='grid gap-10' action={handleSubmit}>
+    <div className='grid gap-10'>
       <Input
         className='bg-white'
         placeholder='title'
@@ -52,14 +81,21 @@ const ArticleForm = ({ article }: { article: Article | null }) => {
             ...prev,
             title,
             isValid: !!title,
+            error: '',
           }));
         }}
       />
       <DatePicker value={value} setValue={setValue} />
-      <Button type='submit' className='w-full' disabled={!value.isValid}>
+      <Button
+        className='w-full'
+        disabled={!value.isValid || isPending}
+        onClick={handleClick}
+      >
         Submit
+        {isPending ? <Loader2 className='animate-spin' /> : null}
       </Button>
-    </form>
+      {value.error ? <span className='text-red-500'>{value.error}</span> : null}
+    </div>
   );
 };
 
@@ -77,17 +113,10 @@ const DatePicker = ({
       <PopoverTrigger>
         <Button
           variant={'outline'}
-          className={cn(
-            'w-full justify-start bg-white text-left font-normal',
-            !value.date && 'text-muted-foreground'
-          )}
+          className={'w-full justify-start bg-white text-left font-normal'}
         >
           <CalendarIcon className='mr-2 h-4 w-4' />
-          {value.date ? (
-            format(value.date, 'yyyy/MM/dd')
-          ) : (
-            <span>Pick a date</span>
-          )}
+          {format(value.date, 'yyyy/MM/dd')}
         </Button>
       </PopoverTrigger>
       <PopoverContent className='w-auto p-0' align='start'>
@@ -96,7 +125,7 @@ const DatePicker = ({
           selected={value.date}
           onSelect={(date) => {
             if (!date) return;
-            setValue((prev) => ({ ...prev, date }));
+            setValue((prev) => ({ ...prev, date, error: '' }));
           }}
           initialFocus
         />

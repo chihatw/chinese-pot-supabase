@@ -12,19 +12,19 @@ export interface Database {
       articles: {
         Row: {
           created_at: string
-          date: string | null
+          date: string
           id: number
           title: string
         }
         Insert: {
           created_at?: string
-          date?: string | null
+          date?: string
           id?: number
           title: string
         }
         Update: {
           created_at?: string
-          date?: string | null
+          date?: string
           id?: number
           title?: string
         }
@@ -154,13 +154,24 @@ export interface Database {
       [_ in never]: never
     }
     Functions: {
+      get_articles_by_ids: {
+        Args: {
+          _ids: number[]
+        }
+        Returns: {
+          created_at: string
+          date: string
+          id: number
+          title: string
+        }[]
+      }
       get_recent_articles: {
         Args: {
           _limit: number
         }
         Returns: {
           created_at: string
-          date: string | null
+          date: string
           id: number
           title: string
         }[]
@@ -173,6 +184,21 @@ export interface Database {
           text: string
           pinyin: string
         }[]
+      }
+      insert_article: {
+        Args: {
+          _title: string
+          _date: string
+        }
+        Returns: number
+      }
+      update_article: {
+        Args: {
+          _id: number
+          _title: string
+          _date: string
+        }
+        Returns: number
       }
     }
     Enums: {

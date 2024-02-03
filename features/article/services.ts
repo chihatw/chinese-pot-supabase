@@ -1,4 +1,5 @@
 import { createSupabaseServerComponentClient } from '@/lib/supabase/actions';
+import { Article } from './schema';
 
 export const getRecentArticles = async (_limit: number) => {
   const supabase = createSupabaseServerComponentClient();
@@ -31,4 +32,25 @@ export const getArticleSentences = async (_article_id: number) => {
   }
   if (!data) return [];
   return data;
+};
+
+export const getArticlesByIds = async (
+  _ids: number[]
+): Promise<{ articles: Article[]; error: string }> => {
+  const supabase = createSupabaseServerComponentClient();
+  const { data, error } = await supabase.rpc('get_articles_by_ids', {
+    _ids,
+  });
+  if (error) {
+    return { articles: [], error: error.message };
+  }
+  if (!data || !data.length) {
+    return { articles: [], error: 'not found' };
+  }
+  const articles = data.map((raw) => ({
+    ...raw,
+    created_at: new Date(raw.created_at),
+    date: new Date(raw.date),
+  }));
+  return { articles, error: '' };
 };

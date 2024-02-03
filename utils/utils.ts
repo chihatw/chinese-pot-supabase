@@ -1,10 +1,10 @@
-import { ReadonlyURLSearchParams } from "next/navigation";
+import { ReadonlyURLSearchParams } from 'next/navigation';
 
 export const buildNewSearchParamsPath = (
   searchKey: string,
   seachValue: string,
   pathname: string,
-  searchParams: ReadonlyURLSearchParams,
+  searchParams: ReadonlyURLSearchParams
 ): string => {
   const temp = new URLSearchParams(Array.from(searchParams.entries()));
 
@@ -20,7 +20,7 @@ export const buildNewSearchParamsPath = (
     }
   }
   const search = temp.toString();
-  const query = search ? `?${search}` : "";
+  const query = search ? `?${search}` : '';
   const newPath = `${pathname}${query}`;
 
   return newPath;
@@ -62,7 +62,7 @@ export const getIntersection = (arrays: string[][]): string[] => {
 
 export const getCurrentUrl = (
   pathname: string,
-  searchParams: ReadonlyURLSearchParams,
+  searchParams: ReadonlyURLSearchParams
 ) => {
   const original = new URLSearchParams(Array.from(searchParams.entries()));
   let originalPath = pathname;

@@ -1,7 +1,7 @@
 'use client';
 
 import { Button } from '@/components/ui/button';
-import { Article, ArticleSentence } from '@/features/article/schema';
+import { ArticleSentence } from '@/features/article/schema';
 import { buildToneMark } from '@/features/hanzi/services/util';
 import { buildPinyin } from '@/features/pinyin';
 import { fontPinyin } from '@/lib/fonts';
@@ -10,10 +10,10 @@ import { cn } from '@/lib/utils';
 import { Delete, Pencil } from 'lucide-react';
 
 const SentenceTable = ({
-  article,
+  articleId,
   sentences,
 }: {
-  article: Article;
+  articleId: number;
   sentences: ArticleSentence[];
 }) => {
   // debug handleSubmit article.id と index で sentence を特定
@@ -23,13 +23,6 @@ const SentenceTable = ({
   };
   return (
     <div>
-      <div className='-mt-12 pb-8'>
-        <div className='text-right text-xs text-gray-500'>articleId:</div>
-        <div className='text-right text-xs font-bold text-gray-500'>
-          {article.id}
-        </div>
-      </div>
-
       <div className='space-y-4 '>
         {sentences.map((sentence, index) => {
           if (!sentence) return null;
@@ -45,11 +38,13 @@ const SentenceTable = ({
                   <Pencil />
                 </Button>
               </form>
-              <form action={() => handleSubmit(index)}>
-                <Button type='submit' variant='ghost' size='icon'>
-                  <Delete />
-                </Button>
-              </form>
+              <Button
+                variant='ghost'
+                size='icon'
+                onClick={() => handleSubmit(index)}
+              >
+                <Delete />
+              </Button>
             </div>
           );
         })}
