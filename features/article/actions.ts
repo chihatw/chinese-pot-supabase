@@ -23,7 +23,7 @@ const addArticle = async (article: Article_org) => {
 };
 
 export const updateArticleAction = async (
-  id: string,
+  id: number,
   title: string,
   createdAt: number
 ) => {
@@ -33,7 +33,7 @@ export const updateArticleAction = async (
   redirect('/article/list');
 };
 // todo updateArticle
-const updateArticle = async (id: string, title: string, createdAt: number) => {
+const updateArticle = async (id: number, title: string, createdAt: number) => {
   // await dbAdmin
   //   .collection(COLLECTIONS.articles)
   //   .withConverter(articleConverter)
