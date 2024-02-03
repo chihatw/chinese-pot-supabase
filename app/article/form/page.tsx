@@ -11,12 +11,12 @@ const ArticleFormPage = async ({
   // create の時 null, update の時 Article
   let article: null | Article = null;
   if (id) {
-    const { articles, error } = await getArticlesByIds([id]);
-    if (error) {
-      console.error(error);
+    const { data, error } = await getArticlesByIds([id]);
+    if (error || !data) {
+      error && console.error(error);
       redirect('/article/list');
     }
-    article = articles[0];
+    article = data[0];
   }
   return (
     <div className='mx-auto w-full max-w-lg space-y-10 pt-10'>

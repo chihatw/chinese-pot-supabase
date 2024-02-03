@@ -1,3 +1,5 @@
+import { buttonVariants } from '@/components/ui/button';
+import { Article, ArticleSentence } from '@/features/article/schema';
 import {
   getArticleSentences,
   getRecentArticles,
@@ -6,29 +8,28 @@ import { SentenceTable } from '@/features/sentence';
 import Link from 'next/link';
 
 export default async function Home() {
-  const articles = await getRecentArticles(1);
-  const article = articles[0];
-  const sentences = article ? await getArticleSentences(article.id) : [];
+  let article: null | Article = null;
+  let sentences: ArticleSentence[] = [];
+  const { data, error } = await getRecentArticles(1);
+
+  if (data && data.length) {
+    article = data[0];
+    const { data: _sentences, error } = await getArticleSentences(article.id);
+    if (_sentences) {
+      sentences = _sentences;
+    }
+  }
+
+  if (!article) return <></>;
 
   return (
     <main className='mx-auto w-full max-w-md space-y-4 pb-40 pt-10 '>
       <div className='text-2xl font-bold'>{article?.title}</div>
-      {article ? (
-        <div>{new Date(article.date).toLocaleDateString('ja-JP')}</div>
-      ) : null}
-
-      {article ? (
-        <div className='flex'>
-          <Link href={`/article/${article.id}/form`}>
-            <div className='rounded-lg bg-primary px-4 py-1.5 text-white'>
-              Create New Sentence
-            </div>
-          </Link>
-        </div>
-      ) : null}
-      {article ? (
-        <SentenceTable sentences={sentences} articleId={article.id} />
-      ) : null}
+      <div>{new Date(article.date).toLocaleDateString('ja-JP')}</div>
+      <Link href={`/article/${article.id}/form`} className={buttonVariants()}>
+        Create New Sentence
+      </Link>
+      <SentenceTable sentences={sentences} articleId={article.id} />
     </main>
   );
 }
