@@ -6,7 +6,6 @@ import Link from 'next/link';
 
 const ArticleListPage = async () => {
   const articles = await getRecentArticles(3);
-  console.log(articles);
   return (
     <div className='mx-auto w-full max-w-lg  space-y-10 pt-10'>
       <div className='text-4xl font-extrabold'>Article List</div>

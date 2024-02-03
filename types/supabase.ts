@@ -154,6 +154,12 @@ export interface Database {
       [_ in never]: never
     }
     Functions: {
+      delete_articles_by_ids: {
+        Args: {
+          _ids: number[]
+        }
+        Returns: boolean
+      }
       get_articles_by_ids: {
         Args: {
           _ids: number[]

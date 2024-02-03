@@ -3,18 +3,25 @@
 import { Button } from '@/components/ui/button';
 import { Edit2, Trash2 } from 'lucide-react';
 import Link from 'next/link';
-import { deleteArticleAction } from '../actions';
+import { useOptimistic } from 'react';
+
+import { deleteArticles } from '../actions';
 import { Article } from '../schema';
 
 const ArticleList = ({ articles }: { articles: Article[] }) => {
+  const [optimisticArticles, deleteOptimisticArticles] = useOptimistic<
+    Article[],
+    number
+  >(articles, (state, id) => {
+    return state.filter((article) => article.id !== id);
+  });
   const handleSubmit = async (id: number) => {
-    // article, sentence, sentence_hanzi を削除
-    // '/article/list'を revalidate
-    await deleteArticleAction(id);
+    deleteOptimisticArticles(id);
+    await deleteArticles([id]);
   };
   return (
     <div className='grid gap-y-10 pb-40'>
-      {articles.map((article) => (
+      {optimisticArticles.map((article) => (
         <div
           key={article.id}
           className='space-y-2 rounded bg-white p-5 pt-3 shadow'
@@ -31,11 +38,14 @@ const ArticleList = ({ articles }: { articles: Article[] }) => {
             <Link href={`/article/form?id=${article.id}`}>
               <Edit2 />
             </Link>
-            <form action={() => handleSubmit(article.id)}>
-              <Button type='submit' variant={'ghost'} size='icon'>
-                <Trash2 />
-              </Button>
-            </form>
+
+            <Button
+              variant={'ghost'}
+              size='icon'
+              onClick={() => handleSubmit(article.id)}
+            >
+              <Trash2 />
+            </Button>
           </div>
         </div>
       ))}

@@ -16,8 +16,8 @@ const SentenceTable = ({
   articleId: number;
   sentences: ArticleSentence[];
 }) => {
-  // debug handleSubmit article.id と index で sentence を特定
-  const handleSubmit = async (index: number) => {
+  // debug handleDelete article.id と index で sentence を特定
+  const handleDelete = async (index: number) => {
     // const sentence = sentences.find((s) => s.id === sentenceId)!;
     // await deleteSentenceAction(sentence, articleId);
   };
@@ -41,7 +41,7 @@ const SentenceTable = ({
               <Button
                 variant='ghost'
                 size='icon'
-                onClick={() => handleSubmit(index)}
+                onClick={() => handleDelete(index)}
               >
                 <Delete />
               </Button>
