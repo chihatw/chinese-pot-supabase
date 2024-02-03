@@ -1,22 +1,22 @@
 import { createSupabaseServerComponentClient } from '@/lib/supabase/actions';
 
-export const getLatestArticle = async () => {
+export const getRecentArticles = async (_limit: number) => {
   const supabase = createSupabaseServerComponentClient();
-  const { data, error } = await supabase.rpc('get_latest_article');
+  const { data, error } = await supabase.rpc('get_recent_articles', { _limit });
   if (error) {
     console.error(error);
-    return null;
+    return [];
   }
 
-  if (!data || !data[0].id) return null;
+  if (!data || !data[0].id) return [];
 
-  const article = {
-    ...data[0],
-    date: new Date(data[0].date!),
-    created_at: new Date(data[0].created_at!),
-  };
+  const articles = data.map((raw) => ({
+    ...raw,
+    date: new Date(raw.date!),
+    created_at: new Date(raw.created_at!),
+  }));
 
-  return article;
+  return articles;
 };
 
 export const getArticleSentences = async (_article_id: number) => {

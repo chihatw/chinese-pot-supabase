@@ -1,12 +1,13 @@
 import {
   getArticleSentences,
-  getLatestArticle,
+  getRecentArticles,
 } from '@/features/article/services';
 import { SentenceTable } from '@/features/sentence';
 import Link from 'next/link';
 
 export default async function Home() {
-  const article = await getLatestArticle();
+  const articles = await getRecentArticles(1);
+  const article = articles[0];
   const sentences = article ? await getArticleSentences(article.id) : [];
 
   return (

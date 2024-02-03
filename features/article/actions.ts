@@ -41,7 +41,7 @@ const updateArticle = async (id: string, title: string, createdAt: number) => {
   //   .update({ title, createdAt });
 };
 
-export const deleteArticleAction = async (id: string) => {
+export const deleteArticleAction = async (id: number) => {
   await deleteArticle(id);
   // note revalidatePath では、現在のページは更新されるが、top page が更新されない。
   // これは delete の操作が、fetch と違って　、 admin で行われるので tag が使われないから？
@@ -50,7 +50,7 @@ export const deleteArticleAction = async (id: string) => {
 };
 
 // todo deleteArticle
-export const deleteArticle = async (id: string) => {
+export const deleteArticle = async (id: number) => {
   // await dbAdmin.collection(COLLECTIONS.articles).doc(id).delete();
 };
 

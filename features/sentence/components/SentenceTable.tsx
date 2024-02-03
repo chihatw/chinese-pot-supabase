@@ -7,9 +7,7 @@ import { buildPinyin } from '@/features/pinyin';
 import { fontPinyin } from '@/lib/fonts';
 import { cn } from '@/lib/utils';
 
-import { Delete, Loader2, Pencil } from 'lucide-react';
-import { ReactNode } from 'react';
-import { useFormStatus } from 'react-dom';
+import { Delete, Pencil } from 'lucide-react';
 
 const SentenceTable = ({
   article,
@@ -48,9 +46,9 @@ const SentenceTable = ({
                 </Button>
               </form>
               <form action={() => handleSubmit(index)}>
-                <ServerActionPendingIconButton variant='ghost'>
+                <Button type='submit' variant='ghost' size='icon'>
                   <Delete />
-                </ServerActionPendingIconButton>
+                </Button>
               </form>
             </div>
           );
@@ -61,36 +59,6 @@ const SentenceTable = ({
 };
 
 export default SentenceTable;
-
-const ServerActionPendingIconButton = ({
-  children,
-  variant,
-  disabled,
-}: {
-  children: ReactNode;
-  disabled?: boolean;
-  variant?:
-    | 'ghost'
-    | 'default'
-    | 'destructive'
-    | 'outline'
-    | 'secondary'
-    | 'link';
-}) => {
-  // note useFormStatus は form の子要素の中で使う。form と同じ要素内では pending が false のまま
-  const { pending } = useFormStatus();
-
-  return (
-    <Button
-      type='submit'
-      disabled={disabled || pending}
-      variant={variant}
-      size='icon'
-    >
-      {pending ? <Loader2 className='animate-spin' /> : children}
-    </Button>
-  );
-};
 
 const SentenceLine = ({ sentence }: { sentence: ArticleSentence }) => {
   const forms = sentence.text.split('');

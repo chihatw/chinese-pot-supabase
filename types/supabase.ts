@@ -154,8 +154,10 @@ export interface Database {
       [_ in never]: never
     }
     Functions: {
-      get_latest_article: {
-        Args: Record<PropertyKey, never>
+      get_recent_articles: {
+        Args: {
+          _limit: number
+        }
         Returns: {
           created_at: string
           date: string | null

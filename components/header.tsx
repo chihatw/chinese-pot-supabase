@@ -9,7 +9,46 @@ import { useRouter } from 'next/navigation';
 import { useEffect, useState } from 'react';
 import { Button, buttonVariants } from './ui/button';
 
+const LINKS: { url: string; label: string }[] = [
+  { url: '/article/list', label: 'Article List' },
+];
+
 const Header = () => {
+  return (
+    <nav className='grid h-12 shadow'>
+      <div className='container flex w-full items-center justify-between'>
+        <div className='flex gap-x-4 items-center'>
+          <HomeIcon />
+          {LINKS.map((link) => (
+            <Link
+              key={link.url}
+              href={link.url}
+              className={buttonVariants({ variant: 'ghost' })}
+            >
+              {link.label}
+            </Link>
+          ))}
+        </div>
+        <AuthPane />
+      </div>
+    </nav>
+  );
+};
+
+export default Header;
+
+const HomeIcon = () => {
+  return (
+    <Link
+      href={'/'}
+      className={buttonVariants({ variant: 'ghost', size: 'icon' })}
+    >
+      <Home />
+    </Link>
+  );
+};
+
+const AuthPane = () => {
   const router = useRouter();
   const supabase = createSupabaseClientComponentClient();
   const [session, setSession] = useState<null | Session>(null);
@@ -48,38 +87,25 @@ const Header = () => {
     setSession(null);
     router.refresh();
   };
-
   return (
-    <nav className='grid h-12 shadow'>
-      <div className='container flex w-full items-center justify-between'>
+    <div className='flex items-center gap-x-2'>
+      {isAdmin ? (
+        <div className={buttonVariants({ variant: 'ghost', size: 'icon' })}>
+          <ShieldCheck />
+        </div>
+      ) : null}
+      {session ? (
+        <Button variant={'ghost'} size={'icon'} onClick={signOut}>
+          <DoorOpen />
+        </Button>
+      ) : (
         <Link
-          href={'/'}
+          href={'/login'}
           className={buttonVariants({ variant: 'ghost', size: 'icon' })}
         >
-          <Home />
+          <DoorClosed />
         </Link>
-        <div className='flex items-center gap-x-2'>
-          {isAdmin ? (
-            <div className={buttonVariants({ variant: 'ghost', size: 'icon' })}>
-              <ShieldCheck />
-            </div>
-          ) : null}
-          {session ? (
-            <Button variant={'ghost'} size={'icon'} onClick={signOut}>
-              <DoorOpen />
-            </Button>
-          ) : (
-            <Link
-              href={'/login'}
-              className={buttonVariants({ variant: 'ghost', size: 'icon' })}
-            >
-              <DoorClosed />
-            </Link>
-          )}
-        </div>
-      </div>
-    </nav>
+      )}
+    </div>
   );
 };
-
-export default Header;
