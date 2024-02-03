@@ -1,4 +1,4 @@
-import { Article } from '@/features/article';
+import { Article_org } from '@/features/article';
 import { PinyinHanzi } from '@/features/hanzi';
 import { Sentence, buildSentenceChars } from '@/features/sentence';
 import Link from 'next/link';
@@ -12,7 +12,7 @@ const SentenceLine = ({
   sentence: Sentence;
   highlight?: string;
   textSize?: string;
-  article?: Article;
+  article?: Article_org;
 }) => {
   const sentenceChars = buildSentenceChars(sentence, highlight || '');
   return (

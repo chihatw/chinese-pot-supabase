@@ -6,9 +6,9 @@ import Link from 'next/link';
 import { ReactNode } from 'react';
 import { useFormStatus } from 'react-dom';
 import { deleteArticleAction } from '../actions';
-import { Article } from '../schema';
+import { Article_org } from '../schema';
 
-const ArticleList = ({ articles }: { articles: Article[] }) => {
+const ArticleList = ({ articles }: { articles: Article_org[] }) => {
   const handleSubmit = async (id: string) => {
     await deleteArticleAction(id);
   };

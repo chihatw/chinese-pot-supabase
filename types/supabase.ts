@@ -9,6 +9,122 @@ export type Json =
 export interface Database {
   public: {
     Tables: {
+      articles: {
+        Row: {
+          created_at: string
+          date: string | null
+          id: number
+          title: string
+        }
+        Insert: {
+          created_at?: string
+          date?: string | null
+          id?: number
+          title: string
+        }
+        Update: {
+          created_at?: string
+          date?: string | null
+          id?: number
+          title?: string
+        }
+        Relationships: []
+      }
+      hanzis: {
+        Row: {
+          consonant: string | null
+          created_at: string
+          form: string
+          id: number
+          tone: string | null
+          vowel: string | null
+        }
+        Insert: {
+          consonant?: string | null
+          created_at?: string
+          form: string
+          id?: number
+          tone?: string | null
+          vowel?: string | null
+        }
+        Update: {
+          consonant?: string | null
+          created_at?: string
+          form?: string
+          id?: number
+          tone?: string | null
+          vowel?: string | null
+        }
+        Relationships: []
+      }
+      sentence_hanzis: {
+        Row: {
+          created_at: string
+          hanzi_id: number
+          id: number
+          offset: number
+          sentence_id: number
+        }
+        Insert: {
+          created_at?: string
+          hanzi_id: number
+          id?: number
+          offset: number
+          sentence_id: number
+        }
+        Update: {
+          created_at?: string
+          hanzi_id?: number
+          id?: number
+          offset?: number
+          sentence_id?: number
+        }
+        Relationships: [
+          {
+            foreignKeyName: "sentence_hanzis_hanzi_id_fkey"
+            columns: ["hanzi_id"]
+            isOneToOne: false
+            referencedRelation: "hanzis"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "sentence_hanzis_sentence_id_fkey"
+            columns: ["sentence_id"]
+            isOneToOne: false
+            referencedRelation: "sentences"
+            referencedColumns: ["id"]
+          }
+        ]
+      }
+      sentences: {
+        Row: {
+          article_id: number
+          created_at: string
+          id: number
+          index: number
+        }
+        Insert: {
+          article_id: number
+          created_at?: string
+          id?: number
+          index: number
+        }
+        Update: {
+          article_id?: number
+          created_at?: string
+          id?: number
+          index?: number
+        }
+        Relationships: [
+          {
+            foreignKeyName: "sentences_article_id_fkey"
+            columns: ["article_id"]
+            isOneToOne: false
+            referencedRelation: "articles"
+            referencedColumns: ["id"]
+          }
+        ]
+      }
       todos: {
         Row: {
           completed: boolean | null
@@ -38,7 +154,24 @@ export interface Database {
       [_ in never]: never
     }
     Functions: {
-      [_ in never]: never
+      get_latest_article: {
+        Args: Record<PropertyKey, never>
+        Returns: {
+          created_at: string
+          date: string | null
+          id: number
+          title: string
+        }[]
+      }
+      get_sentences_of_atricle: {
+        Args: {
+          _article_id: number
+        }
+        Returns: {
+          text: string
+          pinyin: string
+        }[]
+      }
     }
     Enums: {
       [_ in never]: never

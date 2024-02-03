@@ -2,9 +2,9 @@
 
 import { revalidatePath } from 'next/cache';
 import { redirect } from 'next/navigation';
-import { Article } from '.';
+import { Article_org } from '.';
 
-export const addArticleAction = async (article: Article) => {
+export const addArticleAction = async (article: Article_org) => {
   await addArticle(article);
 
   // note revalidateTagをつけると、 article list も、 top page も更新される
@@ -14,9 +14,9 @@ export const addArticleAction = async (article: Article) => {
 };
 
 // todo addArticle
-const addArticle = async (article: Article) => {
+const addArticle = async (article: Article_org) => {
   // await dbAdmin
-  //   .collection(COLLECTIONS.articles)
+  //   .collection(COLLECTIONS.sarticles)
   //   .withConverter(articleConverter)
   //   .doc(article.id)
   //   .set(article);
@@ -54,14 +54,14 @@ export const deleteArticle = async (id: string) => {
   // await dbAdmin.collection(COLLECTIONS.articles).doc(id).delete();
 };
 
-export const batchAddArticlesAction = async (articles: Article[]) => {
+export const batchAddArticlesAction = async (articles: Article_org[]) => {
   await batchAddArticles(articles);
   // count は restapi ではなく、　admin sdk を使っているので、 tag の設定がない
   revalidatePath('/');
 };
 
 // todo batchAddArticles
-const batchAddArticles = async (articles: Article[]) => {
+const batchAddArticles = async (articles: Article_org[]) => {
   // const batch = dbAdmin.batch();
   // for (const article of articles) {
   //   batch.set(

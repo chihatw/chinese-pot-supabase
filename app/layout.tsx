@@ -1,4 +1,6 @@
 import Header from '@/components/header';
+import { fontSans } from '@/lib/fonts';
+import { cn } from '@/lib/utils';
 import './globals.css';
 
 export default function RootLayout({
@@ -8,9 +10,14 @@ export default function RootLayout({
 }) {
   return (
     <html lang='en'>
-      <body className='bg-slate-100 min-h-screen'>
+      <body
+        className={cn(
+          'grid min-h-screen grid-rows-[auto_1fr] bg-slate-200 font-sans text-gray-700',
+          fontSans.className
+        )}
+      >
         <Header />
-        <div className='pt-10 mx-auto max-w-xs'>{children}</div>
+        {children}
       </body>
     </html>
   );

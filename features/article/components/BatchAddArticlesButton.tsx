@@ -4,10 +4,10 @@ import { Button } from '@/components/ui/button';
 import { Loader2 } from 'lucide-react';
 import { useFormStatus } from 'react-dom';
 import { batchAddArticlesAction } from '../actions';
-import ARTICLES_JSON from '../json/ARTICLES.json';
-import { Article } from '../schema';
+// import ARTICLES_JSON from '../json/ARTICLES.json';
+import { Article_org } from '../schema';
 
-const articles = ARTICLES_JSON as Article[];
+const articles = [] as Article_org[];
 
 const BatchAddArticlesButton = () => {
   const handleSubmit = async () => {

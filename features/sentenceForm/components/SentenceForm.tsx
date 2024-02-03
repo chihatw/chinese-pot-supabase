@@ -112,7 +112,7 @@ const SentenceForm = ({
             disabled={
               selectedHanziIds.some((id) => !id) || !selectedHanziIds.length
             }
-            label={articleId ? `Add to Article` : 'Create New Sentence'}
+            label={articleId ? `Add to Article_org` : 'Create New Sentence'}
           />
         </div>
       </form>

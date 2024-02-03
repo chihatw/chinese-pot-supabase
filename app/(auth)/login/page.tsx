@@ -11,7 +11,9 @@ const Login = () => {
         </span>
         <span>{`to your mailbox.`}</span>
       </div>
-      <LoginForm />
+      <div className='max-w-md mx-auto'>
+        <LoginForm />
+      </div>
     </div>
   );
 };

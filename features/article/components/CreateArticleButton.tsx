@@ -1,12 +1,12 @@
-"use client";
-import { Button } from "@/components/ui/button";
+'use client';
+import { Button } from '@/components/ui/button';
 
-import { Plus } from "lucide-react";
+import { Plus } from 'lucide-react';
 
 const CreateArticleButton = () => {
   return (
-    <Button className="space-x-1">
-      <span>Create New Article</span>
+    <Button className='space-x-1'>
+      <span>Create New Article_org</span>
       <Plus size={20} />
     </Button>
   );

@@ -12,9 +12,9 @@ import { nanoid } from 'nanoid';
 import { useState } from 'react';
 import { useFormStatus } from 'react-dom';
 import { addArticleAction, updateArticleAction } from '../actions';
-import { Article } from '../schema';
+import { Article_org } from '../schema';
 
-const ArticleForm = ({ article }: { article?: Article }) => {
+const ArticleForm = ({ article }: { article?: Article_org }) => {
   const [value, setValue] = useState<{ title: string; date?: Date }>({
     title: article?.title || '',
     date: article ? new Date(article.createdAt) : new Date(),
@@ -25,7 +25,7 @@ const ArticleForm = ({ article }: { article?: Article }) => {
     if (article) {
       await updateArticleAction(article.id, value.title, value.date!.getTime());
     } else {
-      const article: Article = {
+      const article: Article_org = {
         id: nanoid(),
         title: value.title,
         createdAt: value.date.getTime(),

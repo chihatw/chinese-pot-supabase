@@ -6,9 +6,9 @@ import { Sentence } from '@/features/sentence';
 import { Loader2 } from 'lucide-react';
 import { useFormStatus } from 'react-dom';
 import { batchAddSentencesAction } from '../actions';
-import SENTENCES_JSON from '../json/SENTENCES.json';
+// import SENTENCES_JSON from '../json/SENTENCES.json';
 
-const SENTENCES = SENTENCES_JSON as Sentence[];
+const SENTENCES = [] as Sentence[];
 
 const BatchAddSentencesButton = () => {
   const { toast } = useToast();

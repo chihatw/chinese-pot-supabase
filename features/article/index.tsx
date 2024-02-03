@@ -1,9 +1,9 @@
-import ArticleForm from "./components/ArticleForm";
-import ArticleList from "./components/ArticleList";
+import ArticleForm from './components/ArticleForm';
+import ArticleList from './components/ArticleList';
 
-import BatchAddArticlesButton from "./components/BatchAddArticlesButton";
-import CreateArticleButton from "./components/CreateArticleButton";
-import { Article } from "./schema";
+import BatchAddArticlesButton from './components/BatchAddArticlesButton';
+import CreateArticleButton from './components/CreateArticleButton';
+import { Article_org } from './schema';
 
 export {
   ArticleForm,
@@ -12,4 +12,4 @@ export {
   CreateArticleButton,
 };
 
-export type { Article };
+export type { Article_org };
