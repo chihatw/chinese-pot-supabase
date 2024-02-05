@@ -1,22 +1,22 @@
-import { Pinyin, PinyinFilter } from "@/features/pinyin";
+import { Pinyin, PinyinFilter } from '@/features/pinyin';
 import {
   CONSONANT_FILTER,
   ONE_CHAR_CONSONANTS,
   TWO_CHAR_CONSONANTS,
-} from "../constants/consonants";
-import { TONES } from "../constants/tones";
-import { VOWEL_FILTER } from "../constants/vowelfilter";
+} from '../constants/consonants';
+import { TONES } from '../constants/tones';
+import { VOWEL_FILTER } from '../constants/vowelfilter';
 import {
   EXTROVERTED_VOWELS,
   INTROVERTED_VOWELS,
   VOWELS,
   VOWEL_PAIRS,
-} from "../constants/vowels";
+} from '../constants/vowels';
 
 export const buildPinyin = (value: string): Pinyin => {
   // 最後尾が TONE かどうかチェック
-  const tail = value.at(-1) || "";
-  let tone = "";
+  const tail = value.at(-1) || '';
+  let tone = '';
   if (TONES.includes(tail)) {
     tone = tail;
   }
@@ -68,11 +68,11 @@ export const buildPinyinFilter = (value: string): PinyinFilter => {
 };
 
 const getTone = (value: string) => {
-  const tail = value.at(-1) || "";
+  const tail = value.at(-1) || '';
   if (TONES.includes(tail)) {
     return tail;
   }
-  return "";
+  return '';
 };
 
 const getVowelsByConsonants = (value: string, consonants: string[]) => {
@@ -96,7 +96,7 @@ const getUniqArray = <T>(array: T[]) => {
 };
 
 const getShortestVowel = (vowels: string[]) => {
-  let shortest = "xxxxx"; // 母音の最長は4字なので、初期値は５字に設定
+  let shortest = 'xxxxx'; // 母音の最長は4字なので、初期値は５字に設定
   for (const vowel of vowels) {
     if (shortest.length > vowel.length) {
       shortest = vowel;
@@ -111,12 +111,12 @@ const getConsonant = (value: string) => {
     return headTwo;
   }
 
-  const headOne = value.at(0) || "";
+  const headOne = value.at(0) || '';
   if (ONE_CHAR_CONSONANTS.includes(headOne)) {
     return headOne;
   }
 
-  return "";
+  return '';
 };
 
 const getConsonants = (valueOmittedTone: string) => {
@@ -148,7 +148,7 @@ const getConsonants = (valueOmittedTone: string) => {
 };
 
 const getVowel = (value: string): string => {
-  return VOWELS.includes(value) ? value : "";
+  return VOWELS.includes(value) ? value : '';
 };
 
 export const getVowels = (value: string) => {
@@ -178,7 +178,7 @@ export const isValidPinyin = ({ consonant, vowel, tone }: Pinyin) => {
 
 export const buildPinyins = (value: string) => {
   const pinyins: Pinyin[] = [];
-  const units = value.split("\u0020").filter(Boolean);
+  const units = value.split('\u0020').filter(Boolean);
   for (const unit of units) {
     const pinyin = buildPinyin(unit);
     pinyins.push(pinyin);
@@ -193,6 +193,6 @@ export const getConsonantLengths = (consonants: string[]) => {
       ...acc,
       [cur.length]: null,
     }),
-    {} as { [key: number]: null },
+    {} as { [key: number]: null }
   );
 };

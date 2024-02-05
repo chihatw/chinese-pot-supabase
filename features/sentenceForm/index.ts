@@ -1,13 +1,13 @@
-import SentenceForm from "./components/SentenceForm";
+import SentenceForm from './components/SentenceForm';
 
 import {
   buildSentenceFormProps,
   buildSentence_from_selectedHanzis,
   getSelectedHanziIds,
   updateCountAndLastestSentenceId_in_Hanzis,
-} from "./services/utils";
+} from './services/utils';
 
-import { SentenceFormProps } from "./schema";
+import { SentenceFormProps } from './schema';
 
 export {
   SentenceForm,

@@ -1,17 +1,15 @@
-import { Hanzi } from "./schema";
+import { Hanzi } from './schema';
 import {
   buildHanziFromId,
   buildHanziId,
   getHanzisByVowel,
   getVowelCounts,
-} from "./services/util";
+} from './services/util';
 
-import BatchAddHanzisButton from "./components/BatchAddHanzisButton";
-import PinyinFilterMonitor from "./components/PinyinFilterMonitor";
-import PinyinHanzi from "./components/PinyinHanzi";
+import PinyinFilterMonitor from './components/PinyinFilterMonitor';
+import PinyinHanzi from './components/PinyinHanzi';
 
 export {
-  BatchAddHanzisButton,
   PinyinFilterMonitor,
   PinyinHanzi,
   buildHanziFromId,

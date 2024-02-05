@@ -1,33 +1,32 @@
-import { Hanzi, PinyinHanzi } from "@/features/hanzi";
-import { getPinyinStr } from "@/features/pinyin";
+import { PinyinHanzi } from '@/features/hanzi';
+import { HanziWithSentence } from '../schema';
 
 const SelectedHanzisMonitor = ({
-  selectedHanziIds,
   hanzis,
+  selectedHanzis,
 }: {
-  selectedHanziIds: string[];
-  hanzis: Hanzi[];
+  hanzis: HanziWithSentence[];
+  selectedHanzis: string[];
 }) => {
   return (
-    <div className="flex flex-wrap items-end gap-2 px-2">
-      {selectedHanziIds.map((hanziId, index) => {
-        const hanzi = hanzis.find((h) => h.id === hanziId);
+    <div className='flex flex-wrap items-end gap-2 px-2'>
+      {selectedHanzis.map((hanziId, index) => {
+        const hanzi = hanzis.find((h) => h.hanzi_id.toString() === hanziId);
         if (!hanzi)
           return (
             <div
               key={index}
-              className="text-4xl font-extralight text-gray-500 "
+              className='text-4xl font-extralight text-gray-500 '
             >
               _
             </div>
           );
         return (
-          <div key={index}>
-            <PinyinHanzi
-              form={hanzi.form}
-              pinyinStr={getPinyinStr(hanzi.pinyin)}
-            />
-          </div>
+          <PinyinHanzi
+            key={index}
+            form={hanzi.form}
+            pinyinStr={hanzi.consonant + hanzi.vowel + hanzi.tone}
+          />
         );
       })}
     </div>

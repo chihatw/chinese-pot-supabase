@@ -32,28 +32,28 @@ export interface Database {
       }
       hanzis: {
         Row: {
-          consonant: string | null
+          consonant: string
           created_at: string
           form: string
           id: number
-          tone: string | null
-          vowel: string | null
+          tone: string
+          vowel: string
         }
         Insert: {
-          consonant?: string | null
+          consonant?: string
           created_at?: string
           form: string
           id?: number
-          tone?: string | null
-          vowel?: string | null
+          tone?: string
+          vowel?: string
         }
         Update: {
-          consonant?: string | null
+          consonant?: string
           created_at?: string
           form?: string
           id?: number
-          tone?: string | null
-          vowel?: string | null
+          tone?: string
+          vowel?: string
         }
         Relationships: []
       }
@@ -171,6 +171,22 @@ export interface Database {
           title: string
         }[]
       }
+      get_hanzis_by_forms: {
+        Args: {
+          _forms: string[]
+        }
+        Returns: {
+          hanzi_id: number
+          count: number
+          form: string
+          consonant: string
+          vowel: string
+          tone: string
+          sentence_id: number
+          text: string
+          pinyin: string
+        }[]
+      }
       get_recent_articles: {
         Args: {
           _limit: number
@@ -195,6 +211,14 @@ export interface Database {
         Args: {
           _title: string
           _date: string
+        }
+        Returns: number
+      }
+      insert_sentence: {
+        Args: {
+          _article_id: number
+          _hanzi_ids: number[]
+          _offsets: number[]
         }
         Returns: number
       }

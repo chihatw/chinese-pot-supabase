@@ -25,7 +25,7 @@ import { Button } from '@/components/ui/button';
 import { Loader2 } from 'lucide-react';
 import { Dispatch, SetStateAction, useEffect, useMemo, useState } from 'react';
 import { useFormStatus } from 'react-dom';
-import { addHanziAction } from '../../actions';
+import { addHanziAction } from '../../../actions';
 import HanziList from './HanziList';
 
 const HanziFormDialogContent = ({
@@ -35,7 +35,7 @@ const HanziFormDialogContent = ({
 }: {
   form: string;
   setOpen: Dispatch<SetStateAction<boolean>>;
-  articleId?: string;
+  articleId?: number;
 }) => {
   // if (typeof global.readCount !== "number") {
   //   global.readCount = 0;
