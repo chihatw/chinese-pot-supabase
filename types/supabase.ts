@@ -160,6 +160,12 @@ export interface Database {
         }
         Returns: boolean
       }
+      delete_sentences_by_ids: {
+        Args: {
+          _ids: number[]
+        }
+        Returns: boolean
+      }
       get_articles_by_ids: {
         Args: {
           _ids: number[]
@@ -203,6 +209,7 @@ export interface Database {
           _article_id: number
         }
         Returns: {
+          sentence_id: number
           text: string
           pinyin: string
         }[]

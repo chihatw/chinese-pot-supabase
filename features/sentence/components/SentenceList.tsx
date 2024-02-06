@@ -4,24 +4,32 @@ import { Button } from '@/components/ui/button';
 import { ArticleSentence } from '@/features/article/schema';
 
 import { Delete } from 'lucide-react';
+import { useOptimistic } from 'react';
+import { deleteSentences } from '../actions';
 import SentenceLine_n from './SentenceLine_n';
 
-const SentenceTable = ({
+const SentenceList = ({
   articleId,
   sentences,
 }: {
   articleId: number;
   sentences: ArticleSentence[];
 }) => {
-  // debug handleDelete article.id と index で sentence を特定
-  const handleDelete = async (index: number) => {
-    // const sentence = sentences.find((s) => s.id === sentenceId)!;
-    // await deleteSentenceAction(sentence, articleId);
+  const [optimisticSentences, deleteOptimisticSentences] = useOptimistic<
+    ArticleSentence[],
+    number
+  >(sentences, (state, sentenceId) => {
+    return state.filter((sentence) => sentence.sentence_id !== sentenceId);
+  });
+
+  const handleDelete = async (sentenceId: number) => {
+    deleteOptimisticSentences(sentenceId);
+    await deleteSentences([sentenceId], articleId);
   };
   return (
     <div>
       <div className='space-y-4 '>
-        {sentences.map((sentence, index) => (
+        {optimisticSentences.map((sentence, index) => (
           <div
             key={index}
             className='grid grid-cols-[24px,1fr,auto,auto] items-center gap-2'
@@ -31,7 +39,7 @@ const SentenceTable = ({
             <Button
               size='icon'
               variant='ghost'
-              onClick={() => handleDelete(index)}
+              onClick={() => handleDelete(sentence.sentence_id)}
             >
               <Delete />
             </Button>
@@ -42,4 +50,4 @@ const SentenceTable = ({
   );
 };
 
-export default SentenceTable;
+export default SentenceList;

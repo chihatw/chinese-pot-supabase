@@ -13,6 +13,7 @@ export interface Article {
 }
 
 export interface ArticleSentence {
+  sentence_id: number;
   text: string;
   pinyin: string;
 }

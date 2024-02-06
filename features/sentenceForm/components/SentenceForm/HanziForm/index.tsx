@@ -19,8 +19,8 @@ const HanziForm = ({
     <Dialog open={open} onOpenChange={setOpen}>
       <DialogTrigger>
         <Button
-          variant='ghost'
           size='sm'
+          variant='ghost'
           className=' flex items-center gap-1 text-destructive hover:text-destructive'
         >
           <div className='text-xs'>新規登録</div>

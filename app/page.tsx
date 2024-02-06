@@ -4,7 +4,7 @@ import {
   getArticleSentences,
   getRecentArticles,
 } from '@/features/article/services';
-import { SentenceTable } from '@/features/sentence';
+import { SentenceList } from '@/features/sentence';
 import Link from 'next/link';
 
 export default async function Home() {
@@ -29,7 +29,7 @@ export default async function Home() {
       <Link href={`/article/${article.id}/form`} className={buttonVariants()}>
         Create New Sentence
       </Link>
-      <SentenceTable sentences={sentences} articleId={article.id} />
+      <SentenceList sentences={sentences} articleId={article.id} />
     </main>
   );
 }

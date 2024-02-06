@@ -37,10 +37,6 @@ const HanziFormDialogContent = ({
   setOpen: Dispatch<SetStateAction<boolean>>;
   articleId?: number;
 }) => {
-  // if (typeof global.readCount !== "number") {
-  //   global.readCount = 0;
-  // }
-
   const [input, setInput] = useState('');
   const [hanzis, setHanzis] = useState<Hanzi[]>([]);
   const [value, setValue] = useState<{ filter: PinyinFilter; pinyin: Pinyin }>({
@@ -79,6 +75,7 @@ const HanziFormDialogContent = ({
     if (!isValidFilter) return;
 
     const fetchData = async () => {
+      // debug HanziFormDialogContent
       const { hanzis } = await getHanzisByPinyinFilter(value.filter);
       setHanzis(hanzis);
     };
@@ -105,7 +102,6 @@ const HanziFormDialogContent = ({
           onChange={(e) => setInput(e.target.value)}
           placeholder='拼音'
         />
-        <JSONMonitor form={form} pinyin={value.pinyin} />
         <div className='flex flex-col items-center gap-2'>
           <PinyinBadge pinyin={value.pinyin} />
           <PinyinHanzi pinyinStr={getPinyinStr(value.pinyin)} form={form} />
@@ -212,6 +208,7 @@ const COLLECTIONS = {
   sentences: 'sentences',
   invertedIndexes: 'inverted_indexes', // note invertedIndexes は　エラー
 };
+// todo
 const getHanzisByPinyinFilter = async (
   filter: PinyinFilter
 ): Promise<{ hanzis: Hanzi[] }> => {

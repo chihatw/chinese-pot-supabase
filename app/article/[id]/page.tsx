@@ -4,7 +4,7 @@ import {
   getArticleSentences,
   getArticlesByIds,
 } from '@/features/article/services';
-import { SentenceTable } from '@/features/sentence';
+import { SentenceList } from '@/features/sentence';
 import Link from 'next/link';
 import { redirect } from 'next/navigation';
 
@@ -28,7 +28,7 @@ const ArticlePage = async ({ params: { id } }: { params: { id: number } }) => {
       <Link href={`/article/${article.id}/form`} className={buttonVariants()}>
         Create New Sentence
       </Link>
-      <SentenceTable sentences={sentences} articleId={article.id} />
+      <SentenceList sentences={sentences} articleId={article.id} />
     </div>
   );
 };
