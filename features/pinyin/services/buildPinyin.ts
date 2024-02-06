@@ -1,11 +1,11 @@
 import { Pinyin, PinyinFilter } from '@/features/pinyin';
 import {
-  CONSONANT_FILTER,
   ONE_CHAR_CONSONANTS,
   TWO_CHAR_CONSONANTS,
+  consonants_grouped_by_head_char,
 } from '../constants/consonants';
 import { TONES } from '../constants/tones';
-import { VOWEL_FILTER } from '../constants/vowelfilter';
+import { vowels_grouped_by_chars } from '../constants/vowelfilter';
 import {
   EXTROVERTED_VOWELS,
   INTROVERTED_VOWELS,
@@ -41,24 +41,13 @@ export const buildPinyin = (value: string): Pinyin => {
 export const buildPinyinFilter = (value: string): PinyinFilter => {
   const tone = getTone(value);
 
-  // value から tone を削除
-  const valueOmittedTone = !!tone ? value.slice(0, value.length - 1) : value;
-  let consonants = getConsonants(valueOmittedTone);
+  const value_omitted_tone = !!tone ? value.slice(0, value.length - 1) : value;
 
-  if (!!tone && consonants.length === 2) {
-    consonants = consonants.filter((con) => con.length === 1);
-  }
+  const consonants = value_omitted_tone
+    ? getConsonants(value_omitted_tone, !!tone)
+    : [];
 
-  let vowels = getVowelsByConsonants(valueOmittedTone, consonants);
-
-  if (!!tone && vowels.length > 1) {
-    const shortest = getShortestVowel(vowels);
-    vowels = [shortest];
-  }
-
-  if (!!vowels.length && consonants.length === 2) {
-    consonants = consonants.filter((con) => con.length === 1);
-  }
+  const vowels = getVowelsByConsonants(value_omitted_tone, consonants, !!tone);
 
   return {
     vowels,
@@ -67,32 +56,22 @@ export const buildPinyinFilter = (value: string): PinyinFilter => {
   };
 };
 
+/**
+ * value 文字列の最後尾が '0,1,2,3,4' ならば、それを返し
+ *
+ * それ以外なら空文字列を返す
+ */
 const getTone = (value: string) => {
-  const tail = value.at(-1) || '';
-  if (TONES.includes(tail)) {
-    return tail;
-  }
-  return '';
+  const tail = value.at(-1);
+  if (!tail) return '';
+  return TONES.includes(tail) ? tail : '';
 };
 
-const getVowelsByConsonants = (value: string, consonants: string[]) => {
-  let vowels: string[] = [];
-
-  // 残りの部分の長さごとに、vowel の候補を探す
-  const consonantLengths = getConsonantLengths(consonants);
-
-  for (const length of Object.keys(consonantLengths).map(Number)) {
-    const valueOmitToneConsonant = value.slice(length);
-    const _vowels = getVowels(valueOmitToneConsonant);
-
-    vowels = [...vowels, ..._vowels];
-    vowels = getUniqArray(vowels);
-  }
-  return vowels;
-};
-
-const getUniqArray = <T>(array: T[]) => {
-  return array.filter((item, index, self) => self.indexOf(item) === index);
+const remove_Y_W_vowels = (vowels: string[]) => {
+  return vowels.filter((v) => {
+    const head = v.split('')[0];
+    return !['y', 'w'].includes(head);
+  });
 };
 
 const getShortestVowel = (vowels: string[]) => {
@@ -103,6 +82,45 @@ const getShortestVowel = (vowels: string[]) => {
     }
   }
   return shortest;
+};
+/**
+ * 子音候補が0個の場合、文字列を母音対応表に当てはめて、母音候補を返す
+ *
+ * 子音候補が1個の場合、文字列を母音対応表に当てはめて、y, w がつかない母音候補を返す
+ *
+ * 子音候補が2個の場合、それぞれの文字列を母音対応表に当てはめて、y, w がつかない母音候補を返す
+ *
+ * 声調が入力済の場合、母音候補の中で一番短い文字列のものを返す
+ */
+const getVowelsByConsonants = (
+  value_omitted_tone: string,
+  consonants: string[],
+  hasTone: boolean
+) => {
+  let target = '';
+  let vowels: string[] = [];
+  switch (consonants.length) {
+    case 0:
+      target = value_omitted_tone;
+      vowels = vowels_grouped_by_chars[target] || [];
+      break;
+    case 1:
+      target = value_omitted_tone.slice(consonants[0].length);
+      vowels = vowels_grouped_by_chars[target] || [];
+      vowels = remove_Y_W_vowels(vowels);
+      break;
+    case 2:
+      for (let length = 1; length <= 2; length++) {
+        target = value_omitted_tone.slice(length);
+        const _vowels = vowels_grouped_by_chars[target] || [];
+        vowels = [...new Set([...vowels, ..._vowels])];
+      }
+      vowels = remove_Y_W_vowels(vowels);
+      break;
+    default:
+      throw new Error(`wrong consonants.length: ${consonants.length}`);
+  }
+  return vowels.length && hasTone ? [getShortestVowel(vowels)] : vowels;
 };
 
 const getConsonant = (value: string) => {
@@ -119,40 +137,41 @@ const getConsonant = (value: string) => {
   return '';
 };
 
-const getConsonants = (valueOmittedTone: string) => {
-  // 空文字列の場合
-  if (!valueOmittedTone) return [];
-
-  // 頭 2文字が子音なら、それを返して、終了
-  const headTwo = valueOmittedTone.slice(0, 2);
-  const twoChar_consonants =
-    CONSONANT_FILTER[headTwo as keyof typeof CONSONANT_FILTER] || [];
-  if (!!twoChar_consonants.length) return twoChar_consonants;
-
-  // 頭 1文字が含まれる子音を抽出
-  const headOne = valueOmittedTone.slice(0, 1);
-  const consonants =
-    CONSONANT_FILTER[headOne as keyof typeof CONSONANT_FILTER] || [];
-
-  // 与えられた文字が１文字のみの場合（つまり、子音が入力されていない状態）は
-  // 抽出された候補を全て返す
-  if (valueOmittedTone.length === 1) {
-    return consonants;
+/**
+ * 声調が含まれない文字列から子音の候補を返す
+ */
+const getConsonants = (value_omitted_tone: string, hasTone: boolean) => {
+  /**
+   * 頭 2文字が子音の場合
+   */
+  const headTwo = value_omitted_tone.slice(0, 2);
+  if (['zh', 'ch', 'sh'].includes(headTwo)) {
+    return [headTwo];
   }
 
-  // 与えられた文字が2文字以上の場合
-  // 上の 2文字子音のチェックで、false の判定を受けているということは、
-  // 2文字子音の可能性はない
+  /**
+   * 頭 2文字が子音ではない場合
+   */
+  // 頭 1文字から、子音候補を抽出　s -> s, sh, k -> k
+  const headChar = value_omitted_tone.at(0)!;
+  const consonants = consonants_grouped_by_head_char[headChar] || [];
 
-  return consonants.filter((c) => c.length === 1);
+  return consonants.filter((c) => {
+    const hasVowel = value_omitted_tone.length > 1;
+    // 母音か声調がすでに入力されている場合、2文字子音の可能性はない
+    if (hasVowel || hasTone) {
+      return c.length === 1;
+    }
+    return true;
+  });
 };
 
 const getVowel = (value: string): string => {
   return VOWELS.includes(value) ? value : '';
 };
 
-export const getVowels = (value: string) => {
-  return VOWEL_FILTER[value as keyof typeof VOWEL_FILTER] || [];
+const getVowels = (value: string) => {
+  return vowels_grouped_by_chars[value] || [];
 };
 
 export const isValidPinyin = ({ consonant, vowel, tone }: Pinyin) => {
@@ -186,8 +205,7 @@ export const buildPinyins = (value: string) => {
   return pinyins;
 };
 
-export const getConsonantLengths = (consonants: string[]) => {
-  if (!consonants.length) return { 0: null };
+const getConsonantLengths = (consonants: string[]) => {
   return consonants.reduce(
     (acc, cur) => ({
       ...acc,

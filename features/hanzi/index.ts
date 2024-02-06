@@ -1,21 +1,9 @@
-import { Hanzi } from './schema';
-import {
-  buildHanziFromId,
-  buildHanziId,
-  getHanzisByVowel,
-  getVowelCounts,
-} from './services/util';
+import { Hanzi_org } from './schema';
+import { buildHanziFromId, buildHanziId } from './services/util';
 
 import PinyinFilterMonitor from './components/PinyinFilterMonitor';
 import PinyinHanzi from './components/PinyinHanzi';
 
-export {
-  PinyinFilterMonitor,
-  PinyinHanzi,
-  buildHanziFromId,
-  buildHanziId,
-  getHanzisByVowel,
-  getVowelCounts,
-};
+export { PinyinFilterMonitor, PinyinHanzi, buildHanziFromId, buildHanziId };
 
-export type { Hanzi };
+export type { Hanzi_org };

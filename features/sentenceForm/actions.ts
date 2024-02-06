@@ -2,9 +2,9 @@
 
 import { createSupabaseServerActionClient } from '@/lib/supabase/actions';
 import { revalidatePath } from 'next/cache';
-import { Hanzi } from '../hanzi';
+import { Hanzi_org } from '../hanzi';
 
-export const addHanziAction = async (hanzi: Hanzi, articleId?: number) => {
+export const addHanziAction = async (hanzi: Hanzi_org, articleId?: number) => {
   await addHanzi(hanzi);
   // note sentence form でキャッシュが利用されているので、 revalidate が必要
   // revalidateTag(REVALIDATE_TAGS.sentenceForm);
@@ -14,7 +14,7 @@ export const addHanziAction = async (hanzi: Hanzi, articleId?: number) => {
 };
 
 // todo addHanzi
-const addHanzi = async (hanzi: Hanzi) => {
+const addHanzi = async (hanzi: Hanzi_org) => {
   // await dbAdmin
   //   .collection(COLLECTIONS.hanzis)
   //   .withConverter(hanziConverter)

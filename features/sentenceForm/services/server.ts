@@ -1,5 +1,5 @@
 import { createSupabaseServerComponentClient } from '@/lib/supabase/actions';
-import { HanziWithSentence } from './schema';
+import { HanziWithSentence } from '../schema';
 
 export const getHanzisWithSentence = async (
   array: string[]

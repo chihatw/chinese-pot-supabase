@@ -1,7 +1,7 @@
 import { buttonVariants } from '@/components/ui/button';
 import { getArticlesByIds } from '@/features/article/services';
 import { SentenceForm } from '@/features/sentenceForm';
-import { getHanzisWithSentence } from '@/features/sentenceForm/services';
+import { getHanzisWithSentence } from '@/features/sentenceForm/services/server';
 import Link from 'next/link';
 import { redirect } from 'next/navigation';
 

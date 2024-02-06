@@ -12,9 +12,12 @@ const HanziForm = ({
   articleId,
 }: {
   form: string;
-  articleId?: number;
+  articleId: number;
 }) => {
   const [open, setOpen] = useState(false);
+  const closeDialog = () => {
+    setOpen(false);
+  };
   return (
     <Dialog open={open} onOpenChange={setOpen}>
       <DialogTrigger>
@@ -30,8 +33,8 @@ const HanziForm = ({
       <DialogContent>
         <HanziFormDialogContent
           form={form}
-          setOpen={setOpen}
           articleId={articleId}
+          closeDialog={closeDialog}
         />
       </DialogContent>
     </Dialog>

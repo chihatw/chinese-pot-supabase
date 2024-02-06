@@ -5,7 +5,6 @@ import { Sentence } from './schema';
 
 import {
   buildHanziIds_from_Sentence,
-  buildHanzisGroupedByConsonantVowel,
   buildSentenceChars,
 } from './services/utils';
 
@@ -14,7 +13,6 @@ export {
   SentenceList,
   SimpleSentenceMonitor,
   buildHanziIds_from_Sentence,
-  buildHanzisGroupedByConsonantVowel,
   buildSentenceChars,
 };
 

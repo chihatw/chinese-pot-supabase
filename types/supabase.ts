@@ -6,7 +6,7 @@ export type Json =
   | { [key: string]: Json | undefined }
   | Json[]
 
-export interface Database {
+export type Database = {
   public: {
     Tables: {
       articles: {
@@ -177,6 +177,51 @@ export interface Database {
           title: string
         }[]
       }
+      get_hanzis_by_consonants: {
+        Args: {
+          _consonants: string[]
+          _limit: number
+        }
+        Returns: {
+          consonant: string
+          created_at: string
+          form: string
+          id: number
+          tone: string
+          vowel: string
+        }[]
+      }
+      get_hanzis_by_consonants_vowel_tone: {
+        Args: {
+          _consonants: string[]
+          _vowel: string
+          _tone: string
+          _limit: number
+        }
+        Returns: {
+          consonant: string
+          created_at: string
+          form: string
+          id: number
+          tone: string
+          vowel: string
+        }[]
+      }
+      get_hanzis_by_consonants_vowels: {
+        Args: {
+          _consonants: string[]
+          _vowels: string[]
+          _limit: number
+        }
+        Returns: {
+          consonant: string
+          created_at: string
+          form: string
+          id: number
+          tone: string
+          vowel: string
+        }[]
+      }
       get_hanzis_by_forms: {
         Args: {
           _forms: string[]
@@ -191,6 +236,35 @@ export interface Database {
           sentence_id: number
           text: string
           pinyin: string
+        }[]
+      }
+      get_hanzis_by_vowel_tone: {
+        Args: {
+          _vowel: string
+          _tone: string
+          _limit: number
+        }
+        Returns: {
+          consonant: string
+          created_at: string
+          form: string
+          id: number
+          tone: string
+          vowel: string
+        }[]
+      }
+      get_hanzis_by_vowels: {
+        Args: {
+          _vowels: string[]
+          _limit: number
+        }
+        Returns: {
+          consonant: string
+          created_at: string
+          form: string
+          id: number
+          tone: string
+          vowel: string
         }[]
       }
       get_recent_articles: {
