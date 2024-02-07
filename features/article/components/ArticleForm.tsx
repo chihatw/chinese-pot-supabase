@@ -12,8 +12,8 @@ import { format } from 'date-fns';
 import { CalendarIcon, Loader2 } from 'lucide-react';
 import { useRouter } from 'next/navigation';
 import { SetStateAction, useState, useTransition } from 'react';
-import { addArticle, updateArticle } from '../actions';
 import { Article, Article_db } from '../schema';
+import { addArticle, updateArticle } from '../services/actions';
 
 interface FormValue {
   title: string;

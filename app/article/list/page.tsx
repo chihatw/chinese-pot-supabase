@@ -1,7 +1,8 @@
 import { buttonVariants } from '@/components/ui/button';
-import { ArticleList } from '@/features/article';
+import ArticleList from '@/features/article/components/ArticleList';
+
 import { Article } from '@/features/article/schema';
-import { getRecentArticles } from '@/features/article/services';
+import { getRecentArticles } from '@/features/article/services/server';
 import { Plus } from 'lucide-react';
 import Link from 'next/link';
 

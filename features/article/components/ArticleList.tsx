@@ -5,8 +5,8 @@ import { Edit2, Trash2 } from 'lucide-react';
 import Link from 'next/link';
 import { useOptimistic } from 'react';
 
-import { deleteArticles } from '../actions';
 import { Article } from '../schema';
+import { deleteArticles } from '../services/actions';
 
 const ArticleList = ({ articles }: { articles: Article[] }) => {
   const [optimisticArticles, deleteOptimisticArticles] = useOptimistic<

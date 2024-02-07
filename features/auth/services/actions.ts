@@ -1,7 +1,7 @@
 'use server';
 
 import { createSupabaseServerActionClient } from '@/lib/supabase/actions';
-import { PROJECT_URL } from './constants';
+import { PROJECT_URL } from '../constants';
 
 const isProduction = process.env.VERCEL_ENV === 'production';
 const url = (isProduction ? PROJECT_URL : 'http://127.0.0.1:3000') + '/welcome';

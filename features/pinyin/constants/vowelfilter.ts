@@ -1,5 +1,3 @@
-import { VOWELS, VOWEL_PAIRS } from './vowels';
-
 // 候補として、半母音も含める
 export const vowels_grouped_by_chars: { [key: string]: string[] } = {
   a: ['a', 'ai', 'ao', 'an', 'ang'],
@@ -121,37 +119,4 @@ export const vowels_grouped_by_chars: { [key: string]: string[] } = {
   yon: ['yong'],
   yong: ['yong'],
   weng: ['weng'],
-};
-
-export const buildVowelFilter = () => {
-  return VOWELS.reduce((acc, cur) => {
-    let cloned = { ...acc };
-    // 母音から、先頭から1文字、2文字...のように部分文字列を作る
-    for (let i = 1; i <= cur.length; i++) {
-      const key = cur.slice(0, i);
-      cloned = {
-        ...cloned,
-        // 部分文字列と自身の対応を記録する
-        [key]: cloned[key] ? [...cloned[key], cur] : [cur],
-      };
-    }
-
-    // 弱母音
-    const pair_key = Object.keys(VOWEL_PAIRS).find(
-      (key) => VOWEL_PAIRS[key] === cur
-    );
-    if (pair_key) {
-      // 母音から、先頭から1文字、2文字...のように部分文字列を作る
-      for (let i = 1; i <= pair_key.length; i++) {
-        const key = pair_key.slice(0, i);
-        cloned = {
-          ...cloned,
-          // 部分文字列と自身の対応を記録する
-          [key]: cloned[key] ? [...cloned[key], cur] : [cur],
-        };
-      }
-    }
-
-    return cloned;
-  }, {} as { [key: string]: string[] });
 };

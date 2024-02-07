@@ -1,7 +1,7 @@
 import { Card, CardContent } from '@/components/ui/card';
 import { RadioGroup } from '@/components/ui/radio-group';
 
-import { HanziWithSentence } from '@/features/hanzi/schema';
+import { Hanzi_with_sentence } from '@/features/hanzi/schema';
 import HanziFormDialog from './HanziFormDialog';
 import RadioGroupHanziMonitor from './RadioGroupHanziMonitor';
 
@@ -15,7 +15,7 @@ const SelectHanziForm = ({
 }: {
   form: string;
   offset: number;
-  hanzis: HanziWithSentence[];
+  hanzis: Hanzi_with_sentence[];
   articleId: number;
   selectedHanzi: string;
   handleChangeSelect: (value: string, offset: number) => void;

@@ -1,5 +1,6 @@
 import { createSupabaseServerComponentClient } from '@/lib/supabase/actions';
-import { Article, ArticleSentence } from './schema';
+import { Sentence } from '../../sentence/schema';
+import { Article } from '../schema';
 
 export const getRecentArticles = async (
   _limit: number
@@ -25,7 +26,7 @@ export const getRecentArticles = async (
 
 export const getArticleSentences = async (
   _article_id: number
-): Promise<{ data?: ArticleSentence[]; error?: string }> => {
+): Promise<{ data?: Sentence[]; error?: string }> => {
   const supabase = createSupabaseServerComponentClient();
 
   const { data, error } = await supabase.rpc('get_sentences_of_atricle', {

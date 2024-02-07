@@ -1,4 +1,4 @@
-import { buildPinyin } from '@/features/pinyin/services/buildPinyin';
+import { buildPinyin } from '@/features/pinyin/services/utils';
 import { fontPinyin } from '@/lib/fonts';
 import { cn } from '@/lib/utils';
 import { buildToneMark } from '../services/utils';
@@ -6,14 +6,11 @@ import { buildToneMark } from '../services/utils';
 const PinyinHanzi = ({
   form,
   count,
-  textSize = 'text-lg',
   pinyinStr,
-  isHighlight,
 }: {
   form: string;
-  textSize?: string;
   pinyinStr: string;
-  isHighlight?: boolean;
+
   count?: number;
 }) => {
   const pinyin = buildPinyin(pinyinStr);
@@ -34,14 +31,7 @@ const PinyinHanzi = ({
         <div className='-mb-1.5 origin-center scale-75 text-xs text-gray-500  h-3'>
           {(pinyin?.consonant || '') + (pinyin?.vowel || '')}
         </div>
-        <div
-          className={cn(
-            isHighlight ? 'text-destructive' : 'text-inherit',
-            textSize
-          )}
-        >
-          {form}
-        </div>
+        <div className={'text-lg'}>{form}</div>
       </div>
       {typeof count === 'number' ? (
         <div className='pt-3 text-right text-xs font-extralight'>{count}</div>

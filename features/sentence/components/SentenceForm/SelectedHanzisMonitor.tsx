@@ -1,11 +1,11 @@
-import { PinyinHanzi } from '@/features/hanzi';
-import { HanziWithSentence } from '@/features/hanzi/schema';
+import PinyinHanzi from '@/features/hanzi/components/PinyinHanzi';
+import { Hanzi_with_sentence } from '@/features/hanzi/schema';
 
 const SelectedHanzisMonitor = ({
   hanzis,
   selectedHanzis,
 }: {
-  hanzis: HanziWithSentence[];
+  hanzis: Hanzi_with_sentence[];
   selectedHanzis: string[];
 }) => {
   return (

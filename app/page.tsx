@@ -1,16 +1,17 @@
 import { buttonVariants } from '@/components/ui/button';
-import { Article, ArticleSentence } from '@/features/article/schema';
+import { Article } from '@/features/article/schema';
 import {
   getArticleSentences,
   getRecentArticles,
-} from '@/features/article/services';
+} from '@/features/article/services/server';
 import SentenceList from '@/features/sentence/components/SentenceList';
+import { Sentence } from '@/features/sentence/schema';
 
 import Link from 'next/link';
 
 export default async function Home() {
   let article: null | Article = null;
-  let sentences: ArticleSentence[] = [];
+  let sentences: Sentence[] = [];
   const { data, error } = await getRecentArticles(1);
 
   if (data && data.length) {
@@ -28,7 +29,7 @@ export default async function Home() {
       <div className='text-2xl font-bold'>{article?.title}</div>
       <div>{new Date(article.date).toLocaleDateString('ja-JP')}</div>
       <Link href={`/article/${article.id}/form`} className={buttonVariants()}>
-        Create New Sentence
+        Create new sentence
       </Link>
       <SentenceList sentences={sentences} articleId={article.id} />
     </main>

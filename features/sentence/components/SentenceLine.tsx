@@ -1,7 +1,7 @@
-import { ArticleSentence } from '@/features/article/schema';
-import { PinyinHanzi } from '@/features/hanzi';
+import PinyinHanzi from '@/features/hanzi/components/PinyinHanzi';
+import { Sentence } from '../schema';
 
-const SentenceLine = ({ sentence }: { sentence: ArticleSentence }) => {
+const SentenceLine = ({ sentence }: { sentence: Sentence }) => {
   const forms = sentence.text.split('');
   const pinyins = sentence.pinyin.split(' ');
   return (

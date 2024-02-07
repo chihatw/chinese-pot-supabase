@@ -1,13 +1,14 @@
 'use client';
 
-import { PinyinHanzi } from '@/features/hanzi';
 import { Hanzi } from '@/features/hanzi/schema';
 import { getHanzisByPinyinFilter } from '@/features/hanzi/services/client';
 import { buildHanziGroups } from '@/features/hanzi/services/utils';
 
-import { PinyinBadge, PinyinFilter, buildPinyin } from '@/features/pinyin';
-
+import PinyinBadge from '@/features/pinyin/components/PinyinBadge';
+import { PinyinFilter } from '@/features/pinyin/schema';
+import { buildPinyin } from '@/features/pinyin/services/utils';
 import { useEffect, useState } from 'react';
+import PinyinHanzi from '../PinyinHanzi';
 
 type Props = {
   hanzis: Hanzi[];

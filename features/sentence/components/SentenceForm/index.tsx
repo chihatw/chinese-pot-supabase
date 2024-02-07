@@ -5,7 +5,7 @@ import { Loader2 } from 'lucide-react';
 import { useRouter } from 'next/navigation';
 import { useEffect, useMemo, useState, useTransition } from 'react';
 
-import { HanziWithSentence } from '@/features/hanzi/schema';
+import { Hanzi_with_sentence } from '@/features/hanzi/schema';
 import { addSentence } from '../../actions';
 import InputTextForm from './InputTextForm';
 import SelectHanziForm from './SelectHanziForm';
@@ -18,7 +18,7 @@ const SentenceForm = ({
 }: {
   text: string;
   articleId: number;
-  hanzis: HanziWithSentence[];
+  hanzis: Hanzi_with_sentence[];
 }) => {
   const router = useRouter();
   const [isPending, startTransition] = useTransition();

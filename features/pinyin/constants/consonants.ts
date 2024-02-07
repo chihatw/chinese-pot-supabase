@@ -51,7 +51,7 @@ export const consonants_grouped_by_head_char: {
   h: ['h'],
 };
 
-export const buildConsonantFilter = () => {
+const buildConsonants_grouped_by_head_char = () => {
   return CONSONANTS.reduce((acc, cur) => {
     let cloned = { ...acc };
     // 母音から、先頭から1文字、2文字...のように部分文字列を作る

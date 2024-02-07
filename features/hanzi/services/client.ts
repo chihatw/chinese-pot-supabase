@@ -1,5 +1,6 @@
-import { Hanzi } from '@/features/hanzi/schema';
-import { PinyinFilter } from '@/features/pinyin';
+import { Hanzi, Hanzi_db_raw } from '@/features/hanzi/schema';
+import { PinyinFilter } from '@/features/pinyin/schema';
+
 import { createSupabaseClientComponentClient } from '@/lib/supabase';
 
 export const getHanzisByPinyinFilter = async (
@@ -8,10 +9,11 @@ export const getHanzisByPinyinFilter = async (
   data?: { hanzis: Hanzi[]; limit?: number; group?: string };
   error?: string;
 }> => {
-  console.log({ filter });
+  // フィルターの組み合わせによって、limit と group を変える
   let limit: undefined | number = undefined;
   let group: undefined | string = undefined;
-  let hanzis_raw: (Omit<Hanzi, 'createdAt'> & { created_at: string })[] = [];
+
+  let hanzis_raw: Hanzi_db_raw[] = [];
   const supabase = createSupabaseClientComponentClient();
 
   const hasVowels = !!filter.vowels.length;

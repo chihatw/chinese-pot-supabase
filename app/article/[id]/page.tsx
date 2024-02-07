@@ -1,10 +1,10 @@
 import { buttonVariants } from '@/components/ui/button';
-import { ArticleSentence } from '@/features/article/schema';
 import {
   getArticleSentences,
   getArticlesByIds,
-} from '@/features/article/services';
+} from '@/features/article/services/server';
 import SentenceList from '@/features/sentence/components/SentenceList';
+import { Sentence } from '@/features/sentence/schema';
 
 import Link from 'next/link';
 import { redirect } from 'next/navigation';
@@ -17,7 +17,7 @@ const ArticlePage = async ({ params: { id } }: { params: { id: number } }) => {
     redirect('/article/list');
   }
   const article = data[0];
-  let sentences: ArticleSentence[] = [];
+  let sentences: Sentence[] = [];
   const { data: _sentences } = await getArticleSentences(article.id);
   if (_sentences) {
     sentences = _sentences;
@@ -27,7 +27,7 @@ const ArticlePage = async ({ params: { id } }: { params: { id: number } }) => {
       <div className='text-2xl font-bold'>{article.title}</div>
       <div>{new Date(article.date).toLocaleDateString('ja-JP')}</div>
       <Link href={`/article/${article.id}/form`} className={buttonVariants()}>
-        Create New Sentence
+        Create new sentence
       </Link>
       <SentenceList sentences={sentences} articleId={article.id} />
     </div>

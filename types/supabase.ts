@@ -295,6 +295,15 @@ export type Database = {
         }
         Returns: number
       }
+      insert_hanzi: {
+        Args: {
+          _form: string
+          _consonant: string
+          _vowel: string
+          _tone: string
+        }
+        Returns: number
+      }
       insert_sentence: {
         Args: {
           _article_id: number

@@ -1,9 +1,10 @@
 import { RadioGroupItem } from '@/components/ui/radio-group';
-import { PinyinHanzi } from '@/features/hanzi';
-import { HanziWithSentence } from '@/features/hanzi/schema';
+import PinyinHanzi from '@/features/hanzi/components/PinyinHanzi';
+
+import { Hanzi_with_sentence } from '@/features/hanzi/schema';
 import SentenceLine from '@/features/sentence/components/SentenceLine';
 
-const RadioGroupHanziMonitor = ({ hanzi }: { hanzi: HanziWithSentence }) => {
+const RadioGroupHanziMonitor = ({ hanzi }: { hanzi: Hanzi_with_sentence }) => {
   return (
     <div className='flex items-center gap-2 '>
       <div className='grid grid-cols-[auto,36px] items-center gap-2 rounded bg-white px-4 py-2 h-[54px]'>

@@ -1,11 +1,11 @@
 'use client';
 
 import { Button } from '@/components/ui/button';
-import { ArticleSentence } from '@/features/article/schema';
 
 import { Delete } from 'lucide-react';
 import { useOptimistic } from 'react';
 import { deleteSentences } from '../actions';
+import { Sentence } from '../schema';
 import SentenceLine from './SentenceLine';
 
 const SentenceList = ({
@@ -13,10 +13,10 @@ const SentenceList = ({
   sentences,
 }: {
   articleId: number;
-  sentences: ArticleSentence[];
+  sentences: Sentence[];
 }) => {
   const [optimisticSentences, deleteOptimisticSentences] = useOptimistic<
-    ArticleSentence[],
+    Sentence[],
     number
   >(sentences, (state, sentenceId) => {
     return state.filter((sentence) => sentence.sentence_id !== sentenceId);

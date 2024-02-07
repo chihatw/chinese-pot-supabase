@@ -3,7 +3,7 @@
 import { createSupabaseServerActionClient } from '@/lib/supabase/actions';
 import { format } from 'date-fns';
 import { revalidatePath } from 'next/cache';
-import { Article, Article_db } from './schema';
+import { Article, Article_db } from '../schema';
 
 export const addArticle = async (
   article: Article_db

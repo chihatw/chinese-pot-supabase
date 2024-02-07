@@ -3,6 +3,8 @@ import { createServerClient, type CookieOptions } from '@supabase/ssr';
 
 import { cookies } from 'next/headers';
 
+// server action は get, set, remove
+// server component は get のみ
 export function createSupabaseServerActionClient(serverComponent = false) {
   const cookieStore = cookies();
   return createServerClient<Database>(

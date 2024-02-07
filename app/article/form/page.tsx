@@ -1,6 +1,6 @@
-import { ArticleForm } from '@/features/article';
+import ArticleForm from '@/features/article/components/ArticleForm';
 import { Article } from '@/features/article/schema';
-import { getArticlesByIds } from '@/features/article/services';
+import { getArticlesByIds } from '@/features/article/services/server';
 import { redirect } from 'next/navigation';
 
 const ArticleFormPage = async ({
