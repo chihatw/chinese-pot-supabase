@@ -5,9 +5,9 @@ import { Dialog, DialogContent, DialogTrigger } from '@/components/ui/dialog';
 
 import { Plus } from 'lucide-react';
 import { useState } from 'react';
-import HanziFormDialogContent from './HanziFormDialogContent';
+import HanziForm from '../../../../hanzi/components/HanziForm';
 
-const HanziForm = ({
+const HanziFormDialog = ({
   form,
   articleId,
 }: {
@@ -31,7 +31,7 @@ const HanziForm = ({
         </Button>
       </DialogTrigger>
       <DialogContent>
-        <HanziFormDialogContent
+        <HanziForm
           form={form}
           articleId={articleId}
           closeDialog={closeDialog}
@@ -41,4 +41,4 @@ const HanziForm = ({
   );
 };
 
-export default HanziForm;
+export default HanziFormDialog;

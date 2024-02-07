@@ -1,7 +1,7 @@
 import { RadioGroupItem } from '@/components/ui/radio-group';
 import { PinyinHanzi } from '@/features/hanzi';
-import SentenceLine_n from '@/features/sentence/components/SentenceLine_n';
-import { HanziWithSentence } from '../../schema';
+import { HanziWithSentence } from '@/features/hanzi/schema';
+import SentenceLine from '@/features/sentence/components/SentenceLine';
 
 const RadioGroupHanziMonitor = ({ hanzi }: { hanzi: HanziWithSentence }) => {
   return (
@@ -18,10 +18,11 @@ const RadioGroupHanziMonitor = ({ hanzi }: { hanzi: HanziWithSentence }) => {
       </div>
 
       {hanzi.sentence_id ? (
-        <SentenceLine_n
+        <SentenceLine
           sentence={{
             text: hanzi.text,
             pinyin: hanzi.pinyin,
+            sentence_id: hanzi.sentence_id,
           }}
         />
       ) : null}

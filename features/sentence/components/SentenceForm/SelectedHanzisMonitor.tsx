@@ -1,5 +1,5 @@
 import { PinyinHanzi } from '@/features/hanzi';
-import { HanziWithSentence } from '../schema';
+import { HanziWithSentence } from '@/features/hanzi/schema';
 
 const SelectedHanzisMonitor = ({
   hanzis,

@@ -16,3 +16,15 @@ export interface Hanzi {
   vowel: string;
   createdAt: Date;
 }
+
+export interface HanziWithSentence {
+  hanzi_id: number;
+  count: number;
+  form: string;
+  consonant: string;
+  vowel: string;
+  tone: string;
+  sentence_id: number;
+  text: string;
+  pinyin: string;
+}

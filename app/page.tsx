@@ -4,7 +4,8 @@ import {
   getArticleSentences,
   getRecentArticles,
 } from '@/features/article/services';
-import { SentenceList } from '@/features/sentence';
+import SentenceList from '@/features/sentence/components/SentenceList';
+
 import Link from 'next/link';
 
 export default async function Home() {

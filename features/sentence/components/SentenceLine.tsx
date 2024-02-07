@@ -1,38 +1,16 @@
-import { Article_org } from '@/features/article';
+import { ArticleSentence } from '@/features/article/schema';
 import { PinyinHanzi } from '@/features/hanzi';
-import { Sentence, buildSentenceChars } from '@/features/sentence';
-import Link from 'next/link';
 
-const SentenceLine = ({
-  sentence,
-  highlight,
-  textSize,
-  article,
-}: {
-  sentence: Sentence;
-  highlight?: string;
-  textSize?: string;
-  article?: Article_org;
-}) => {
-  const sentenceChars = buildSentenceChars(sentence, highlight || '');
+const SentenceLine = ({ sentence }: { sentence: ArticleSentence }) => {
+  const forms = sentence.text.split('');
+  const pinyins = sentence.pinyin.split(' ');
   return (
     <div className='grid'>
       <div className='flex flex-wrap gap-1 '>
-        {sentenceChars.map((char, index) => (
-          <PinyinHanzi key={index} {...char} textSize={textSize} />
+        {forms.map((form, offset) => (
+          <PinyinHanzi key={offset} form={form} pinyinStr={pinyins[offset]} />
         ))}
       </div>
-      {article ? (
-        <Link href={`/article/${article.id}`}>
-          <div className='w-96 truncate text-xs font-extralight text-gray-500'>
-            {article.title}
-          </div>
-        </Link>
-      ) : (
-        <div className='text-xs font-extralight text-gray-500'>
-          {sentence.id}
-        </div>
-      )}
     </div>
   );
 };

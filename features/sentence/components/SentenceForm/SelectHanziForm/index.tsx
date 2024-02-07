@@ -1,7 +1,8 @@
 import { Card, CardContent } from '@/components/ui/card';
 import { RadioGroup } from '@/components/ui/radio-group';
-import { HanziWithSentence } from '../../schema';
-import HanziForm from './HanziForm';
+
+import { HanziWithSentence } from '@/features/hanzi/schema';
+import HanziFormDialog from './HanziFormDialog';
 import RadioGroupHanziMonitor from './RadioGroupHanziMonitor';
 
 const SelectHanziForm = ({
@@ -37,7 +38,7 @@ const SelectHanziForm = ({
                   ))}
               </div>
             </RadioGroup>
-            <HanziForm form={form} articleId={articleId} />
+            <HanziFormDialog form={form} articleId={articleId} />
           </div>
         </div>
       </CardContent>

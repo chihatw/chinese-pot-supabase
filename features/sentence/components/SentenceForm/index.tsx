@@ -4,11 +4,12 @@ import { Button } from '@/components/ui/button';
 import { Loader2 } from 'lucide-react';
 import { useRouter } from 'next/navigation';
 import { useEffect, useMemo, useState, useTransition } from 'react';
+
+import { HanziWithSentence } from '@/features/hanzi/schema';
 import { addSentence } from '../../actions';
-import { HanziWithSentence } from '../../schema';
-import SelectedHanzisMonitor from '../SelectedHanzisMonitor';
 import InputTextForm from './InputTextForm';
 import SelectHanziForm from './SelectHanziForm';
+import SelectedHanzisMonitor from './SelectedHanzisMonitor';
 
 const SentenceForm = ({
   text,

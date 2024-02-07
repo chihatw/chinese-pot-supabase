@@ -8,6 +8,7 @@ export const getHanzisByPinyinFilter = async (
   data?: { hanzis: Hanzi[]; limit?: number; group?: string };
   error?: string;
 }> => {
+  console.log({ filter });
   let limit: undefined | number = undefined;
   let group: undefined | string = undefined;
   let hanzis_raw: (Omit<Hanzi, 'createdAt'> & { created_at: string })[] = [];
@@ -18,7 +19,7 @@ export const getHanzisByPinyinFilter = async (
   const hasTone = !!filter.tone;
   // 母音のみ
   if (hasVowels && !hasConsonants && !hasTone) {
-    group = '子音';
+    group = '子音+母音'; // 母音は複数指定されている。子音は有無が不明。 i -> i, yi
     limit = 5;
     const { data, error } = await supabase.rpc('get_hanzis_by_vowels', {
       _limit: limit,

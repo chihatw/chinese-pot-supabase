@@ -1,7 +1,7 @@
 import { buildPinyin } from '@/features/pinyin/services/buildPinyin';
 import { fontPinyin } from '@/lib/fonts';
 import { cn } from '@/lib/utils';
-import { buildToneMark } from '../services/util';
+import { buildToneMark } from '../services/utils';
 
 const PinyinHanzi = ({
   form,

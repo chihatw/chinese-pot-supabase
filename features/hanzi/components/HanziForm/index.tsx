@@ -38,7 +38,7 @@ const INITIAL_STATE: Props = {
   disabled: false,
 };
 
-const HanziFormDialogContent = ({
+const HanziForm = ({
   form,
   articleId,
   closeDialog,
@@ -99,4 +99,4 @@ const HanziFormDialogContent = ({
   );
 };
 
-export default HanziFormDialogContent;
+export default HanziForm;

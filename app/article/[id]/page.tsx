@@ -4,7 +4,8 @@ import {
   getArticleSentences,
   getArticlesByIds,
 } from '@/features/article/services';
-import { SentenceList } from '@/features/sentence';
+import SentenceList from '@/features/sentence/components/SentenceList';
+
 import Link from 'next/link';
 import { redirect } from 'next/navigation';
 

@@ -6,7 +6,7 @@ import { ArticleSentence } from '@/features/article/schema';
 import { Delete } from 'lucide-react';
 import { useOptimistic } from 'react';
 import { deleteSentences } from '../actions';
-import SentenceLine_n from './SentenceLine_n';
+import SentenceLine from './SentenceLine';
 
 const SentenceList = ({
   articleId,
@@ -35,7 +35,7 @@ const SentenceList = ({
             className='grid grid-cols-[24px,1fr,auto,auto] items-center gap-2'
           >
             <div className='text-xs'>{index + 1}</div>
-            <SentenceLine_n sentence={sentence} />
+            <SentenceLine sentence={sentence} />
             <Button
               size='icon'
               variant='ghost'

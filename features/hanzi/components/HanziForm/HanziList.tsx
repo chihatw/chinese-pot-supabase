@@ -2,10 +2,10 @@
 
 import { PinyinHanzi } from '@/features/hanzi';
 import { Hanzi } from '@/features/hanzi/schema';
+import { getHanzisByPinyinFilter } from '@/features/hanzi/services/client';
+import { buildHanziGroups } from '@/features/hanzi/services/utils';
 
 import { PinyinBadge, PinyinFilter, buildPinyin } from '@/features/pinyin';
-import { buildHanziGroups } from '@/features/sentence/services/utils';
-import { getHanzisByPinyinFilter } from '@/features/sentenceForm/services/client';
 
 import { useEffect, useState } from 'react';
 
