@@ -1,17 +1,17 @@
 import PinyinHanzi from '@/features/hanzi/components/PinyinHanzi';
-import { Hanzi_with_sentence } from '@/features/hanzi/schema';
+import { Hanzi_latest_sentence_count } from '@/features/hanzi/schema';
 
 const SelectedHanzisMonitor = ({
   hanzis,
   selectedHanzis,
 }: {
-  hanzis: Hanzi_with_sentence[];
+  hanzis: Hanzi_latest_sentence_count[];
   selectedHanzis: string[];
 }) => {
   return (
     <div className='flex flex-wrap items-end gap-2 px-2'>
       {selectedHanzis.map((hanziId, index) => {
-        const hanzi = hanzis.find((h) => h.hanzi_id.toString() === hanziId);
+        const hanzi = hanzis.find((h) => h.id.toString() === hanziId);
         if (!hanzi)
           return (
             <div

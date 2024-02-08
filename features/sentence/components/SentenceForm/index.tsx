@@ -5,7 +5,7 @@ import { Loader2 } from 'lucide-react';
 import { useRouter } from 'next/navigation';
 import { useEffect, useMemo, useState, useTransition } from 'react';
 
-import { Hanzi_with_sentence } from '@/features/hanzi/schema';
+import { Hanzi_latest_sentence_count } from '@/features/hanzi/schema';
 import { addSentence } from '../../actions';
 import InputTextForm from './InputTextForm';
 import SelectHanziForm from './SelectHanziForm';
@@ -18,7 +18,7 @@ const SentenceForm = ({
 }: {
   text: string;
   articleId: number;
-  hanzis: Hanzi_with_sentence[];
+  hanzis: Hanzi_latest_sentence_count[];
 }) => {
   const router = useRouter();
   const [isPending, startTransition] = useTransition();
@@ -35,7 +35,7 @@ const SentenceForm = ({
         hanzis
           .filter((h) => h.form === form)
           ?.sort((a, b) => b.count - a.count)[0]
-          ?.hanzi_id.toString() || '' // Radio Group の値に合わせて string に変換
+          ?.id.toString() || '' // Radio Group の値に合わせて string に変換
     );
     setValue({ selectedHanzis, error: '' });
   }, [forms, hanzis]);

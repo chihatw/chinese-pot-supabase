@@ -84,8 +84,43 @@ export type Database = {
             foreignKeyName: "sentence_hanzis_hanzi_id_fkey"
             columns: ["hanzi_id"]
             isOneToOne: false
+            referencedRelation: "hanzi_counts"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "sentence_hanzis_hanzi_id_fkey"
+            columns: ["hanzi_id"]
+            isOneToOne: false
+            referencedRelation: "hanzi_latest_sentence_counts"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "sentence_hanzis_hanzi_id_fkey"
+            columns: ["hanzi_id"]
+            isOneToOne: false
+            referencedRelation: "hanzi_latest_sentences"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "sentence_hanzis_hanzi_id_fkey"
+            columns: ["hanzi_id"]
+            isOneToOne: false
             referencedRelation: "hanzis"
             referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "sentence_hanzis_sentence_id_fkey"
+            columns: ["sentence_id"]
+            isOneToOne: false
+            referencedRelation: "hanzi_latest_sentence_counts"
+            referencedColumns: ["sentence_id"]
+          },
+          {
+            foreignKeyName: "sentence_hanzis_sentence_id_fkey"
+            columns: ["sentence_id"]
+            isOneToOne: false
+            referencedRelation: "hanzi_latest_sentences"
+            referencedColumns: ["sentence_id"]
           },
           {
             foreignKeyName: "sentence_hanzis_sentence_id_fkey"
@@ -127,6 +162,20 @@ export type Database = {
             foreignKeyName: "sentences_article_id_fkey"
             columns: ["article_id"]
             isOneToOne: false
+            referencedRelation: "article_sentence_text_pinyins"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "sentences_article_id_fkey"
+            columns: ["article_id"]
+            isOneToOne: false
+            referencedRelation: "article_sentence_text_pinyins_latest"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "sentences_article_id_fkey"
+            columns: ["article_id"]
+            isOneToOne: false
             referencedRelation: "articles"
             referencedColumns: ["id"]
           }
@@ -158,6 +207,72 @@ export type Database = {
       }
     }
     Views: {
+      article_sentence_text_pinyins: {
+        Row: {
+          created_at: string | null
+          date: string | null
+          id: number | null
+          index: number | null
+          pinyin: string | null
+          text: string | null
+          title: string | null
+        }
+        Relationships: []
+      }
+      article_sentence_text_pinyins_latest: {
+        Row: {
+          created_at: string | null
+          date: string | null
+          id: number | null
+          index: number | null
+          pinyin: string | null
+          text: string | null
+          title: string | null
+        }
+        Relationships: []
+      }
+      hanzi_counts: {
+        Row: {
+          consonant: string | null
+          count: number | null
+          created_at: string | null
+          form: string | null
+          id: number | null
+          tone: string | null
+          vowel: string | null
+        }
+        Relationships: []
+      }
+      hanzi_latest_sentence_counts: {
+        Row: {
+          consonant: string | null
+          count: number | null
+          created_at: string | null
+          form: string | null
+          id: number | null
+          pinyin: string | null
+          sentence_id: number | null
+          text: string | null
+          tone: string | null
+          vowel: string | null
+        }
+        Relationships: []
+      }
+      hanzi_latest_sentences: {
+        Row: {
+          article_id: number | null
+          consonant: string | null
+          created_at: string | null
+          form: string | null
+          id: number | null
+          pinyin: string | null
+          sentence_id: number | null
+          text: string | null
+          tone: string | null
+          vowel: string | null
+        }
+        Relationships: []
+      }
       sentence_text_pinyins: {
         Row: {
           article_id: number | null
@@ -216,22 +331,6 @@ export type Database = {
           vowel: string
         }[]
       }
-      get_hanzis_by_forms: {
-        Args: {
-          _forms: string[]
-        }
-        Returns: {
-          hanzi_id: number
-          form: string
-          consonant: string
-          vowel: string
-          tone: string
-          count: number
-          sentence_id: number
-          text: string
-          pinyin: string
-        }[]
-      }
       get_hanzis_by_vowel_tone: {
         Args: {
           _vowel: string
@@ -259,16 +358,6 @@ export type Database = {
           id: number
           tone: string
           vowel: string
-        }[]
-      }
-      get_sentences_of_atricle: {
-        Args: {
-          _article_id: number
-        }
-        Returns: {
-          sentence_id: number
-          text: string
-          pinyin: string
         }[]
       }
       insert_hanzi: {

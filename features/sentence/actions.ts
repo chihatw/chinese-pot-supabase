@@ -15,6 +15,7 @@ export const deleteSentence = async (
   }
   revalidatePath('/');
   revalidatePath(`/article/${articleId}`);
+  revalidatePath(`/article/${articleId}/form`);
   return;
 };
 
