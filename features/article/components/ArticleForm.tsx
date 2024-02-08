@@ -125,6 +125,7 @@ const DatePicker = ({
           selected={value.date}
           onSelect={(date) => {
             if (!date) return;
+            console.log(date); // debug
             setValue((prev) => ({ ...prev, date, error: '' }));
           }}
           initialFocus
