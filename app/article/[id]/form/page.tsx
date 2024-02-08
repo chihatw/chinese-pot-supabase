@@ -1,7 +1,8 @@
 import { buttonVariants } from '@/components/ui/button';
-import { getArticlesByIds } from '@/features/article/services/server';
+import { Article } from '@/features/article/schema';
 import { getHanzisWithSentence } from '@/features/hanzi/services/server';
 import SentenceForm from '@/features/sentence/components/SentenceForm';
+import { fetchSupabase } from '@/lib/supabase/utils';
 
 import Link from 'next/link';
 import { redirect } from 'next/navigation';
@@ -13,15 +14,17 @@ const ArticleSentenceFormPage = async ({
   params: { id: number }; // url 内部の "/[id]/" の部分
   searchParams: { text?: string }; // url 後ろの "?text=..."の部分
 }) => {
-  !id && redirect('/article/list');
+  if (!id) redirect('/article/list');
 
   // params から article 取得
-  const { data, error } = await getArticlesByIds([id]);
-  if (error) {
-    console.error(error);
+  const res = await fetchSupabase({
+    query: `articles?select=*&id=eq.${id}`,
+  });
+  const articles: Article[] = await res.json();
+  const article = articles[0];
+  if (!article || !article.id) {
     redirect('/article/list');
   }
-  const article = data![0];
 
   // input の値は searchParams で保持 '？text='
   const text = searchParams.text?.trim() || '';

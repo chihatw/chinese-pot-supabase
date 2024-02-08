@@ -36,6 +36,7 @@ export const updateArticle = async (
   revalidatePath('/');
   revalidatePath('/article/list');
   revalidatePath(`/article/${article.id}`);
+  revalidatePath(`/article/${article.id}/form`);
   return { data };
 };
 

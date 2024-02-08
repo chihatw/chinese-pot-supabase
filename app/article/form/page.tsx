@@ -1,6 +1,6 @@
 import ArticleForm from '@/features/article/components/ArticleForm';
 import { Article } from '@/features/article/schema';
-import { getArticlesByIds } from '@/features/article/services/server';
+import { fetchSupabase } from '@/lib/supabase/utils';
 import { redirect } from 'next/navigation';
 
 const ArticleFormPage = async ({
@@ -8,15 +8,19 @@ const ArticleFormPage = async ({
 }: {
   searchParams: { id?: number };
 }) => {
-  // create の時 null, update の時 Article
+  // article は null の時もある
+  // create の時は null, update の時 Article
   let article: null | Article = null;
+
   if (id) {
-    const { data, error } = await getArticlesByIds([id]);
-    if (error || !data) {
-      error && console.error(error);
+    const res = await fetchSupabase({
+      query: `articles?select=*&id=eq.${id}`,
+    });
+    const articles: Article[] = await res.json();
+    article = articles[0];
+    if (!article || !article.id) {
       redirect('/article/list');
     }
-    article = data[0];
   }
   return (
     <div className='mx-auto w-full max-w-lg space-y-10 pt-10'>

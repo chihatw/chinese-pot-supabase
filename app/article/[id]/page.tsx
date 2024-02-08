@@ -1,22 +1,24 @@
 import { buttonVariants } from '@/components/ui/button';
-import {
-  getArticleSentences,
-  getArticlesByIds,
-} from '@/features/article/services/server';
+import { Article } from '@/features/article/schema';
+import { getArticleSentences } from '@/features/article/services/server';
 import SentenceList from '@/features/sentence/components/SentenceList';
 import { Sentence } from '@/features/sentence/schema';
+import { fetchSupabase } from '@/lib/supabase/utils';
 
 import Link from 'next/link';
 import { redirect } from 'next/navigation';
 
 const ArticlePage = async ({ params: { id } }: { params: { id: number } }) => {
   if (!id) redirect('/article/list');
-  const { data, error } = await getArticlesByIds([id]);
-  if (error || !data || !data.length) {
-    error && console.error(error);
+  const res = await fetchSupabase({
+    query: `articles?select=*&id=eq.${id}`,
+  });
+  const articles: Article[] = await res.json();
+  const article = articles[0];
+  if (!article || !article.id) {
     redirect('/article/list');
   }
-  const article = data[0];
+
   let sentences: Sentence[] = [];
   const { data: _sentences } = await getArticleSentences(article.id);
   if (_sentences) {

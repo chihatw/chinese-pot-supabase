@@ -1,28 +1,30 @@
 import { buttonVariants } from '@/components/ui/button';
 import { Article } from '@/features/article/schema';
-import {
-  getArticleSentences,
-  getRecentArticles,
-} from '@/features/article/services/server';
+import { getArticleSentences } from '@/features/article/services/server';
 import SentenceList from '@/features/sentence/components/SentenceList';
 import { Sentence } from '@/features/sentence/schema';
+import { fetchSupabase } from '@/lib/supabase/utils';
 
 import Link from 'next/link';
 
 export default async function Home() {
   let article: null | Article = null;
-  let sentences: Sentence[] = [];
-  const { data, error } = await getRecentArticles(1);
+  const res = await fetchSupabase({
+    query: 'articles?select=*&order=date.desc&limit=1',
+  });
+  const articles: Article[] = await res.json();
 
-  if (data && data.length) {
-    article = data[0];
-    const { data: _sentences, error } = await getArticleSentences(article.id);
-    if (_sentences) {
-      sentences = _sentences;
-    }
+  if (articles && articles.length) {
+    article = articles[0];
   }
-
   if (!article) return <></>;
+
+  let sentences: Sentence[] = [];
+  article = articles[0];
+  const { data } = await getArticleSentences(article.id);
+  if (data) {
+    sentences = data;
+  }
 
   return (
     <main className='mx-auto w-full max-w-md space-y-4 pb-40 pt-10 '>

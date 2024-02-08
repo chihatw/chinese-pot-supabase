@@ -11,5 +11,17 @@ psql \
 ```
 
 # Memo
-`tsconfig.json`
-`new Set()` を使うために `"target": "es6"` 追記
+- `tsconfig.json`
+  - `new Set()` を使うために `"target": "es6"` 追記
+
+- `next.config.mjs`
+  - cache 状態を見るため
+```js
+const nextConfig = {
+  logging: {
+    fetches: {
+      fullUrl: true,
+    },
+  },
+};
+```

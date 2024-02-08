@@ -2,16 +2,16 @@ import { buttonVariants } from '@/components/ui/button';
 import ArticleList from '@/features/article/components/ArticleList';
 
 import { Article } from '@/features/article/schema';
-import { getRecentArticles } from '@/features/article/services/server';
+import { fetchSupabase } from '@/lib/supabase/utils';
 import { Plus } from 'lucide-react';
 import Link from 'next/link';
 
 const ArticleListPage = async () => {
-  let articles: Article[] = [];
-  const { data, error } = await getRecentArticles(3);
-  if (data) {
-    articles = data;
-  }
+  const res = await fetchSupabase({
+    query: 'articles?select=*&order=date.desc&limit=3',
+  });
+  const articles: Article[] = await res.json();
+
   return (
     <div className='mx-auto w-full max-w-lg  space-y-10 pt-10'>
       <div className='text-4xl font-extrabold'>Article List</div>

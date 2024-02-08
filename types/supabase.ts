@@ -228,11 +228,11 @@ export type Database = {
         }
         Returns: {
           hanzi_id: number
-          count: number
           form: string
           consonant: string
           vowel: string
           tone: string
+          count: number
           sentence_id: number
           text: string
           pinyin: string
@@ -288,13 +288,21 @@ export type Database = {
           pinyin: string
         }[]
       }
-      insert_article: {
-        Args: {
-          _title: string
-          _date: string
-        }
-        Returns: number
-      }
+      insert_article:
+        | {
+            Args: {
+              _title: string
+              _date: string
+            }
+            Returns: number
+          }
+        | {
+            Args: {
+              _title: string
+              _date: string
+            }
+            Returns: number
+          }
       insert_hanzi: {
         Args: {
           _form: string
