@@ -3,20 +3,19 @@
 import { createSupabaseServerActionClient } from '@/lib/supabase/actions';
 import { revalidatePath } from 'next/cache';
 
-export const deleteSentences = async (
-  _ids: number[],
+export const deleteSentence = async (
+  _id: number,
   articleId: number
-): Promise<{ data?: boolean; error?: string }> => {
+): Promise<void> => {
   const supabase = createSupabaseServerActionClient();
-  const { data, error } = await supabase.rpc('delete_sentences_by_ids', {
-    _ids,
-  });
+  const { error } = await supabase.from('sentences').delete().eq('id', _id);
   if (error) {
-    return { error: error.message };
+    console.error(error.message);
+    return;
   }
   revalidatePath('/');
   revalidatePath(`/article/${articleId}`);
-  return { data };
+  return;
 };
 
 export const addSentence = async (

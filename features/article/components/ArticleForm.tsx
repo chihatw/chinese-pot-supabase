@@ -39,7 +39,7 @@ const ArticleForm = ({ article }: { article: Article | null }) => {
     };
 
     startTransition(async () => {
-      const { data, error } = await addArticle(article);
+      const { error } = await addArticle(article);
       if (error) {
         setValue((prev) => ({ ...prev, error }));
         return;
@@ -51,7 +51,7 @@ const ArticleForm = ({ article }: { article: Article | null }) => {
 
   const update = (article: Article) => {
     startTransition(async () => {
-      const { data, error } = await updateArticle({
+      const { error } = await updateArticle({
         ...article,
         title: value.title,
         date: value.date,
@@ -125,7 +125,6 @@ const DatePicker = ({
           selected={value.date}
           onSelect={(date) => {
             if (!date) return;
-            console.log(date); // debug
             setValue((prev) => ({ ...prev, date, error: '' }));
           }}
           initialFocus

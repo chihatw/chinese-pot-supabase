@@ -7,29 +7,28 @@ import { Article, Article_db } from '../schema';
 
 export const addArticle = async (
   article: Article_db
-): Promise<{ data?: number; error?: string }> => {
+): Promise<{ error?: string }> => {
   const supabase = createSupabaseServerActionClient();
-  const { data, error } = await supabase.rpc('insert_article', {
-    _title: article.title,
-    _date: article.date,
-  });
+  const { error } = await supabase
+    .from('articles')
+    .insert({ date: article.date, title: article.title });
   if (error) {
     return { error: error.message };
   }
   revalidatePath('/');
   revalidatePath('/article/list');
-  return { data };
+  return {};
 };
 
 export const updateArticle = async (
   article: Article
-): Promise<{ data?: number; error?: string }> => {
+): Promise<{ error?: string }> => {
   const supabase = createSupabaseServerActionClient();
-  const { data, error } = await supabase.rpc('update_article', {
-    _id: article.id,
-    _title: article.title,
-    _date: format(article.date, 'yyyy-MM-dd'),
-  });
+  const { error } = await supabase
+    .from('articles')
+    .update({ title: article.title, date: format(article.date, 'yyyy-MM-dd') })
+    .eq('id', article.id);
+
   if (error) {
     return { error: error.message };
   }
@@ -37,20 +36,18 @@ export const updateArticle = async (
   revalidatePath('/article/list');
   revalidatePath(`/article/${article.id}`);
   revalidatePath(`/article/${article.id}/form`);
-  return { data };
+  return {};
 };
 
-export const deleteArticles = async (
-  _ids: number[]
-): Promise<{ data?: boolean; error?: string }> => {
+export const deleteArticle = async (
+  _id: number
+): Promise<{ error?: string }> => {
   const supabase = createSupabaseServerActionClient();
-  const { data, error } = await supabase.rpc('delete_articles_by_ids', {
-    _ids,
-  });
+  const { error } = await supabase.from('articles').delete().eq('id', _id);
   if (error) {
     return { error: error.message };
   }
   revalidatePath('/');
   revalidatePath('/article/list');
-  return { data };
+  return {};
 };

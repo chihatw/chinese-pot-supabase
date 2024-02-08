@@ -4,7 +4,7 @@ import { Button } from '@/components/ui/button';
 
 import { Delete } from 'lucide-react';
 import { useOptimistic } from 'react';
-import { deleteSentences } from '../actions';
+import { deleteSentence } from '../actions';
 import { Sentence } from '../schema';
 import SentenceLine from './SentenceLine';
 
@@ -24,7 +24,7 @@ const SentenceList = ({
 
   const handleDelete = async (sentenceId: number) => {
     deleteOptimisticSentences(sentenceId);
-    await deleteSentences([sentenceId], articleId);
+    await deleteSentence(sentenceId, articleId);
   };
   return (
     <div>

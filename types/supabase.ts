@@ -91,6 +91,13 @@ export type Database = {
             foreignKeyName: "sentence_hanzis_sentence_id_fkey"
             columns: ["sentence_id"]
             isOneToOne: false
+            referencedRelation: "sentence_text_pinyins"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "sentence_hanzis_sentence_id_fkey"
+            columns: ["sentence_id"]
+            isOneToOne: false
             referencedRelation: "sentences"
             referencedColumns: ["id"]
           }
@@ -151,32 +158,19 @@ export type Database = {
       }
     }
     Views: {
-      [_ in never]: never
+      sentence_text_pinyins: {
+        Row: {
+          article_id: number | null
+          created_at: string | null
+          id: number | null
+          index: number | null
+          pinyin: string | null
+          text: string | null
+        }
+        Relationships: []
+      }
     }
     Functions: {
-      delete_articles_by_ids: {
-        Args: {
-          _ids: number[]
-        }
-        Returns: boolean
-      }
-      delete_sentences_by_ids: {
-        Args: {
-          _ids: number[]
-        }
-        Returns: boolean
-      }
-      get_articles_by_ids: {
-        Args: {
-          _ids: number[]
-        }
-        Returns: {
-          created_at: string
-          date: string
-          id: number
-          title: string
-        }[]
-      }
       get_hanzis_by_consonants: {
         Args: {
           _consonants: string[]
@@ -267,17 +261,6 @@ export type Database = {
           vowel: string
         }[]
       }
-      get_recent_articles: {
-        Args: {
-          _limit: number
-        }
-        Returns: {
-          created_at: string
-          date: string
-          id: number
-          title: string
-        }[]
-      }
       get_sentences_of_atricle: {
         Args: {
           _article_id: number
@@ -288,21 +271,6 @@ export type Database = {
           pinyin: string
         }[]
       }
-      insert_article:
-        | {
-            Args: {
-              _title: string
-              _date: string
-            }
-            Returns: number
-          }
-        | {
-            Args: {
-              _title: string
-              _date: string
-            }
-            Returns: number
-          }
       insert_hanzi: {
         Args: {
           _form: string
@@ -317,14 +285,6 @@ export type Database = {
           _article_id: number
           _hanzi_ids: number[]
           _offsets: number[]
-        }
-        Returns: number
-      }
-      update_article: {
-        Args: {
-          _id: number
-          _title: string
-          _date: string
         }
         Returns: number
       }

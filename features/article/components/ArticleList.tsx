@@ -6,7 +6,7 @@ import Link from 'next/link';
 import { useOptimistic } from 'react';
 
 import { Article } from '../schema';
-import { deleteArticles } from '../services/actions';
+import { deleteArticle } from '../services/actions';
 
 const ArticleList = ({ articles }: { articles: Article[] }) => {
   const [optimisticArticles, deleteOptimisticArticles] = useOptimistic<
@@ -17,7 +17,7 @@ const ArticleList = ({ articles }: { articles: Article[] }) => {
   });
   const handleSubmit = async (id: number) => {
     deleteOptimisticArticles(id);
-    await deleteArticles([id]);
+    await deleteArticle(id);
   };
   return (
     <div className='grid gap-y-10 pb-40'>
