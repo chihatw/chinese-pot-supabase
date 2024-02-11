@@ -27,7 +27,11 @@ const ArticleList = ({ articles }: { articles: Article[] }) => {
           className='space-y-2 rounded bg-white p-5 pt-3 shadow'
         >
           <div className='space-x-1 text-sm font-extralight text-gray-500'>
-            <span>{new Date(article.date).toLocaleDateString('ja-JP')}</span>
+            <span>
+              {new Date(article.date).toLocaleDateString('ja-JP', {
+                timeZone: 'Asia/Tokyo',
+              })}
+            </span>
           </div>
           <div className='grid grid-cols-[1fr,auto,auto] items-center gap-2'>
             <Link href={`/article/${article.id}`}>

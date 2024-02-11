@@ -20,7 +20,7 @@ export default async function Home() {
   const article: Article = data[0];
 
   const sentences: Sentence[] = data.filter(
-    (s: { index?: number }) => !!s.index
+    (s: { index: any }) => !isNaN(s.index)
   );
 
   return (

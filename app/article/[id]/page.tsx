@@ -26,13 +26,17 @@ const ArticlePage = async ({ params: { id } }: { params: { id: number } }) => {
   }
 
   const sentences: Sentence[] = data.filter(
-    (s: { index?: number }) => !!s.index
+    (s: { index: any }) => !isNaN(s.index)
   );
 
   return (
     <div className='mx-auto w-full max-w-md space-y-4 pb-40 pt-10'>
       <div className='text-2xl font-bold'>{article.title}</div>
-      <div>{new Date(article.date).toLocaleDateString('ja-JP')}</div>
+      <div>
+        {new Date(article.date).toLocaleDateString('ja-JP', {
+          timeZone: 'Asia/Tokyo',
+        })}
+      </div>
       <Link href={`/article/${article.id}/form`} className={buttonVariants()}>
         Create new sentence
       </Link>
