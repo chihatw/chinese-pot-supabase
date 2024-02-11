@@ -35,7 +35,10 @@ const ArticleForm = ({ article }: { article: Article | null }) => {
   const add = () => {
     const article: Article_db = {
       title: value.title,
-      date: format(value.date, 'yyyy-MM-dd'),
+      date: format(
+        value.date.toLocaleDateString('en-US', { timeZone: 'Asia/Tokyo' }),
+        'yyyy-MM-dd'
+      ),
     };
 
     startTransition(async () => {
