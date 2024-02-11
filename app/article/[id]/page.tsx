@@ -24,7 +24,9 @@ const ArticlePage = async ({ params: { id } }: { params: { id: number } }) => {
     redirect('/article/list');
   }
 
-  const sentences: Sentence[] = data;
+  const sentences: Sentence[] = data.filter(
+    (s: { index?: number }) => !!s.index
+  );
 
   return (
     <div className='mx-auto w-full max-w-md space-y-4 pb-40 pt-10'>

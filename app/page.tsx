@@ -17,7 +17,10 @@ export default async function Home() {
     return <></>;
   }
   const article: Article = data[0];
-  const sentences: Sentence[] = data;
+
+  const sentences: Sentence[] = data.filter(
+    (s: { index?: number }) => !!s.index
+  );
 
   return (
     <main className='mx-auto w-full max-w-md space-y-4 pb-40 pt-10 '>
