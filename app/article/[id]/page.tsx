@@ -12,7 +12,7 @@ const ArticlePage = async ({ params: { id } }: { params: { id: number } }) => {
 
   const res = await fetchSupabase({
     query: `article_sentence_text_pinyins?select=*&id=eq.${id}&order=index.asc`,
-    cache: 'no-store',
+    // cache: 'no-store',
   });
 
   const data = await res.json();

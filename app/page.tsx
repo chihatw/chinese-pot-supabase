@@ -9,7 +9,7 @@ import Link from 'next/link';
 export default async function Home() {
   const res = await fetchSupabase({
     query: 'article_sentence_text_pinyins_latest?select=*',
-    cache: 'no-store',
+    // cache: 'no-store',
   });
 
   const data = await res.json();

@@ -9,7 +9,7 @@ import Link from 'next/link';
 const ArticleListPage = async () => {
   const res = await fetchSupabase({
     query: 'articles?select=*&order=date.desc&limit=3',
-    cache: 'no-store',
+    // cache: 'no-store',
   });
   const articles: Article[] = await res.json();
 
