@@ -29,7 +29,11 @@ export default async function Home() {
   return (
     <main className='mx-auto w-full max-w-md space-y-4 pb-40 pt-10 '>
       <div className='text-2xl font-bold'>{article?.title}</div>
-      <div>{new Date(article.date).toLocaleDateString('ja-JP')}</div>
+      <div>
+        {new Date(article.date).toLocaleDateString('ja-JP', {
+          timeZone: 'Asia/Tokyo',
+        })}
+      </div>
       <Link href={`/article/${article.id}/form`} className={buttonVariants()}>
         Create new sentence
       </Link>
