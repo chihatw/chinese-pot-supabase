@@ -25,9 +25,7 @@ const ArticlePage = async ({ params: { id } }: { params: { id: number } }) => {
     redirect('/article/list');
   }
 
-  const sentences: Sentence[] = data.filter(
-    (s: { index: any }) => !isNaN(s.index)
-  );
+  const sentences: Sentence[] = data;
 
   return (
     <div className='mx-auto w-full max-w-md space-y-4 pb-40 pt-10'>
