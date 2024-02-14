@@ -1,17 +1,26 @@
 import { buttonVariants } from '@/components/ui/button';
 import ArticleList from '@/features/article/components/ArticleList';
-
 import { Article } from '@/features/article/schema';
-import { fetchSupabase } from '@/lib/supabase/utils';
+
+import { createSupabaseServerComponentClient } from '@/lib/supabase/actions';
 import { Plus } from 'lucide-react';
 import Link from 'next/link';
 
 const ArticleListPage = async () => {
-  const res = await fetchSupabase({
-    query: 'articles?select=*&order=date.desc&limit=3',
-    // cache: 'no-store',
-  });
-  const articles: Article[] = await res.json();
+  // const res = await fetchSupabase({
+  //   query: 'articles?select=*&order=date.desc&limit=3',
+  //   // cache: 'no-store',
+  // });
+  // const articles: Article[] = await res.json();
+  const supabase = createSupabaseServerComponentClient();
+
+  const { data } = await supabase
+    .from('articles')
+    .select('*')
+    .order('date', { ascending: false })
+    .limit(3);
+
+  const articles = data as unknown as Article[];
 
   return (
     <div className='mx-auto w-full max-w-lg  space-y-10 pt-10'>

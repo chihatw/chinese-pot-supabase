@@ -2,26 +2,29 @@ import { buttonVariants } from '@/components/ui/button';
 import { Article } from '@/features/article/schema';
 import SentenceList from '@/features/sentence/components/SentenceList';
 import { Sentence } from '@/features/sentence/schema';
-import { fetchSupabase } from '@/lib/supabase/utils';
+import { createSupabaseServerComponentClient } from '@/lib/supabase/actions';
 
 import Link from 'next/link';
 
 export default async function Home() {
-  const res = await fetchSupabase({
-    query: 'article_sentence_text_pinyins_latest?select=*',
-    // cache: 'no-store',
-  });
+  // const res = await fetchSupabase({
+  //   query: 'article_sentence_text_pinyins_latest?select=*',
+  //   // cache: 'no-store',
+  // });
 
-  const data = await res.json();
+  // const data = await res.json();
+
+  const supabase = createSupabaseServerComponentClient();
+  const { data, error } = await supabase
+    .from('article_sentence_text_pinyins_latest')
+    .select('*');
 
   if (!data || !data.length) {
     return <></>;
   }
-  const article: Article = data[0];
+  const article = data[0] as unknown as Article;
 
-  const sentences: Sentence[] = data.filter(
-    (s: { index: any }) => !isNaN(s.index)
-  );
+  const sentences = data as unknown as Sentence[];
 
   return (
     <main className='mx-auto w-full max-w-md space-y-4 pb-40 pt-10 '>
