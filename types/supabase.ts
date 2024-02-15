@@ -112,6 +112,20 @@ export type Database = {
             foreignKeyName: "sentence_hanzis_sentence_id_fkey"
             columns: ["sentence_id"]
             isOneToOne: false
+            referencedRelation: "article_sentence_text_pinyins"
+            referencedColumns: ["sentence_id"]
+          },
+          {
+            foreignKeyName: "sentence_hanzis_sentence_id_fkey"
+            columns: ["sentence_id"]
+            isOneToOne: false
+            referencedRelation: "article_sentence_text_pinyins_latest"
+            referencedColumns: ["sentence_id"]
+          },
+          {
+            foreignKeyName: "sentence_hanzis_sentence_id_fkey"
+            columns: ["sentence_id"]
+            isOneToOne: false
             referencedRelation: "hanzi_latest_sentence_counts"
             referencedColumns: ["sentence_id"]
           },
@@ -214,6 +228,7 @@ export type Database = {
           id: number | null
           index: number | null
           pinyin: string | null
+          sentence_id: number | null
           text: string | null
           title: string | null
         }
@@ -226,6 +241,7 @@ export type Database = {
           id: number | null
           index: number | null
           pinyin: string | null
+          sentence_id: number | null
           text: string | null
           title: string | null
         }
